@@ -11,3 +11,13 @@ zoom into Google Maps to estimate where they could meet. Or, if two people are l
 to save on Uber, they can carpool together to a location that is halfway between their homes so that their walk home
 equal (I have been in this situation before.) A user on Midpoint can enter two locations, and choose within an appropriate
 radius (can be set by user) a set of the locations that they would like to meet at/be dropped off at.
+
+
+# spring-2020-virtual-volcano
+
+- a description of project, including the Product Vision Statement
+- a short history of how the project came to be
+- information about how to contribute to the project (usually a link to the CONTRIBUTING.md document)
+- instructions on building and testing the project (once the project reaches that stage)
+- links to any additional Markdown documents or web pages that may be relevant reading about the project
+- anything else you think is important to communicate to people viewing the project
