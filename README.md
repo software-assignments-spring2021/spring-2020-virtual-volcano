@@ -12,3 +12,5 @@ equal (I have been in this situation before.) A user on Midpoint can enter 2+ lo
 radius (can be set by user) a set of the locations that they would like to meet at/be dropped off at.
 
 
+  ### Prototype 
+Here is the link for our application prototype.(https://invis.io/98W6PSOF7GS#/406659271_10Login)
