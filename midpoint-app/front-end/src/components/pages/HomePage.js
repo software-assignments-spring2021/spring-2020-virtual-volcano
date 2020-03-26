@@ -11,6 +11,7 @@ class HomePage extends Component {
             <div>
                 <Header />
                 <h1>Home Page!</h1>
+                <HomeForm />
                 <Link to='/login'>Login</Link>
                 <Footer />
             </div>
