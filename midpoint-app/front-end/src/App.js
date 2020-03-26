@@ -2,17 +2,17 @@ import React from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import SideBar from "./sidebar";
-import {Route} from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
 
 
 const App = () => (
-  <div className="ui container">
-      <SideBar right/>
+  <div className="ui-container">
+    <SideBar right />
 
-      <Route path="/" exact component={HomePage} />
-      <Route path="/login" exact component={LoginPage}/>
+    <Route path="/" exact component={HomePage} />
+    <Route path="/login" exact component={LoginPage} />
   </div>
 );
 
