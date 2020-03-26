@@ -1,30 +1,34 @@
 import React from "react";
 import { slide as Menu } from "react-burger-menu";
+import { Link } from "react-router-dom";
 
 import './sidebar.css';
 
-function SideBar (props) {
+// function SideBar (props) {
+export default props => {
     return (
        <Menu {...props}>
-  
-        <a className="menu-item" href="/">
+        {/* Calculate Midpoint Link */}         
+        <Link to='/'>Calculate Midpoint</Link>
+        
+        <Link to='/login'>Login</Link>
+        
+        {/* <a className="menu-item" href="/">
           Calculate Midpoint
-        </a>
-  
+        </a> */}
         {/* should the sidebar contain Login tab or make "your account" 
         redirect to the sign in page if not logged in and
         your account page if logged in*/}
         {/* <a className="menu-item" href="/">
           Login
         </a> */}
-  
-        <a className="menu-item" href="/">
+        {/* <a className="menu-item" href="/">
           Your Account
-        </a>
+        </a> */}
   
       </Menu>
     );
   };
   
-  export default SideBar;
+  // export default SideBar;
   
