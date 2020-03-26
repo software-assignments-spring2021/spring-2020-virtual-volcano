@@ -4,8 +4,18 @@ import { Form, Button } from 'semantic-ui-react';
 import Validator from 'validator';
 import InlineError from "../messages/InlineError";
 
-function shoot() {
-    alert("YAY!");
+function time() {
+    alert("YAY! (time calculation TBD)");
+    console.log("HURRRRAHHH");
+};
+
+function distance() {
+    alert("YAY! (distance calculation TBD)");
+    console.log("HURRRRAHHH");
+};
+
+function price() {
+    alert("YAY! (price calculation TBD)");
     console.log("HURRRRAHHH");
 };
 
@@ -75,9 +85,9 @@ class HomeForm extends React.Component {
                     {errors.otherLocation && <InlineError text={errors.otherLocation}/>}
                 </Form.Field>
                 <p>Calculate Midpoint By:</p>
-                <Button primary onClick={shoot}>Time</Button>
-                <Button primary>Distance</Button>
-                <Button primary>Price</Button>
+                <Button primary onClick={time}>Time</Button>
+                <Button primary onClick={distance}>Distance</Button>
+                <Button primary onClick={price}>Price</Button>
                 <p></p>
                 <img src="https://picsum.photos/500/300?grayscale"/>
             </Form>
