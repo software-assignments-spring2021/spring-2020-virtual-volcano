@@ -4,7 +4,7 @@ import LoginForm from '../forms/LoginForm'
 class LoginPage extends React.Component {
 
     submit = (data) => {
-       // just to make sure we actually get data 
+        // just to make sure we actually get data 
         console.log(data);
     };
 
@@ -13,7 +13,7 @@ class LoginPage extends React.Component {
             <div>
                 <h1>Login Page</h1>
 
-                <LoginForm submit={this.submit}/>
+                <LoginForm submit={this.submit} />
             </div>
         )
     }
