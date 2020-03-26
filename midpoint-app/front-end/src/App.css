@@ -74,9 +74,13 @@
 .footer {
   padding:10px 0;
   border-top:1px solid #82929B;
-  font-size:11px;
-  font-size:12px;
+  font-size:14px;
   background-color:#f1f1f1;
   text-align:center;
   color:#888
+}
+
+.location-box {
+  padding: 40px 0 40px 0;
+  text-align:center;
 }
