@@ -30,10 +30,10 @@ class HomeForm extends React.Component {
         errors: {}
     };
 
-    onChange = e => 
-        this.setState({ 
-            data: { ...this.state.data, [e.target.name]: e.target.value}
-    });
+    onChange = e =>
+        this.setState({
+            data: { ...this.state.data, [e.target.name]: e.target.value }
+        });
 
     onSubmit = () => {
         const errors = this.validate(this.state.data);
@@ -47,7 +47,7 @@ class HomeForm extends React.Component {
     validate = (data) => {
         // errors object should be empty if validation is OK & pass data further
         const errors = {};
-        if(!data.userLocation) errors.userLocation = " Can't be blank";
+        if (!data.userLocation) errors.userLocation = " Can't be blank";
         if (!data.otherLocation) errors.otherLocation = " Can't be blank";
         return errors;
     };
@@ -57,41 +57,41 @@ class HomeForm extends React.Component {
 
 
         return (
-            <Form onSubmit={this.onSubmit}>
+            <Form className="location-box" onSubmit={this.onSubmit}>
                 <Form.Field error={!!errors.userLocation}>
                     <label htmlFor="userLocation">Your Location</label>
-                    <input 
-                        type="userLocation" 
-                        id="userLocation" 
-                        name="userLocation" 
-                        placeholder="123 E 123 Street, New York, NY, 10003" 
+                    <input
+                        type="userLocation"
+                        id="userLocation"
+                        name="userLocation"
+                        placeholder="123 E 123 Street, New York, NY, 10003"
                         value={data.userLocation}
                         onChange={this.onChange}
-                        style = {{width: "50%"}}
+                        style={{ width: "50%" }}
                     />
-                    {errors.userLocation && <InlineError text={errors.userLocation}/>}
+                    {errors.userLocation && <InlineError text={errors.userLocation} />}
                 </Form.Field>
                 <Form.Field error={!!errors.otherLocation}>
                     <label htmlFor="otherLocation">Other Location</label>
-                    <input 
-                        type="otherLocation" 
-                        id="otherLocation" 
-                        name="otherLocation" 
-                        placeholder="321 W 321 Street, New York, NY, 10003" 
+                    <input
+                        type="otherLocation"
+                        id="otherLocation"
+                        name="otherLocation"
+                        placeholder="321 W 321 Street, New York, NY, 10003"
                         value={data.otherLocation}
                         onChange={this.onChange}
-                        style = {{width: "50%"}}
+                        style={{ width: "50%" }}
                     />
-                    {errors.otherLocation && <InlineError text={errors.otherLocation}/>}
+                    {errors.otherLocation && <InlineError text={errors.otherLocation} />}
                 </Form.Field>
                 <p>Calculate Midpoint By:</p>
                 <Button primary onClick={time}>Time</Button>
                 <Button primary onClick={distance}>Distance</Button>
                 <Button primary onClick={price}>Price</Button>
                 <p></p>
-                <img src="https://picsum.photos/500/300?grayscale"/>
-            
-            /* TODO: when pages are deeplinked with map + calculation API, you can utilize these buttons
+                <img src="https://picsum.photos/500/300?grayscale" />
+
+                {/* TODO: when pages are deeplinked with map + calculation API, you can utilize these buttons
                      but for now there are dependencies not allowing for it
                      
                <Dropdown>
@@ -118,7 +118,7 @@ class HomeForm extends React.Component {
                     <Dropdown.Item href="#/action-3">Shops</Dropdown.Item>
                     </Dropdown.Menu>
               </Dropdown
-            */
+            */}
             </Form>
         );
     }
