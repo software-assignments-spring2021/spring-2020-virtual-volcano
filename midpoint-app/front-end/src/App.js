@@ -9,7 +9,7 @@ import LoginPage from './components/pages/LoginPage';
 
 const App = () => (
   <div className="ui container">
-      <SideBar/>
+      <SideBar right/>
 
       <Route path="/" exact component={HomePage} />
       <Route path="/login" exact component={LoginPage}/>

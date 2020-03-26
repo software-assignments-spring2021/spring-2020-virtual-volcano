@@ -1,6 +1,7 @@
 import React from "react";
 import LoginForm from '../forms/LoginForm'
-
+import Footer from '../template/Footer';
+import Header from '../template/Header';
 class LoginPage extends React.Component {
 
     submit = (data) => {
@@ -11,9 +12,10 @@ class LoginPage extends React.Component {
     render() {
         return (
             <div>
+                <Header />
                 <h1>Login Page</h1>
-
                 <LoginForm submit={this.submit}/>
+                <Footer />
             </div>
         )
     }
