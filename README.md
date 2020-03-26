@@ -12,3 +12,8 @@ equal (I have been in this situation before.) A user on Midpoint can enter 2+ lo
 radius (can be set by user) a set of the locations that they would like to meet at/be dropped off at.
 
 
+  ### Prototype 
+Here is the link for our application prototype.(https://invis.io/98W6PSOF7GS#/406659271_10Login)
+
+UPDATE: Curl for Users API `curl -H "X-API-Key: e161fca0" https://my.api.mockaroo.com/users.json` & for Locations API `curl -H "X-API-Key: e161fca0" https://my.api.mockaroo.com/calculations.json`
+
