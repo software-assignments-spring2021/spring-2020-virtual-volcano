@@ -36,25 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-.header {
-  padding:10px 0;
-  font-size:20px;
-  background-color:#82AC9F;
-  text-align:center;
-  color:#fff
-}
-
-.header .logo{
-  width: 130px;
-}
-
-.footer {
-  padding:10px 0;
-  border-top:1px solid #82929B;
-  font-size:11px;
-  font-size:12px;
-  background-color:#f1f1f1;
-  text-align:center;
-  color:#888
-}
