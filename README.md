@@ -14,3 +14,7 @@ radius (can be set by user) a set of the locations that they would like to meet 
 
   ### Prototype 
 Here is the link for our application prototype.(https://invis.io/98W6PSOF7GS#/406659271_10Login)
+
+UPDATE: Curl for USERS API `curl -H "X-API-Key: e161fca0" https://my.api.mockaroo.com/users.json`
+        Curl for LOCATIONS API `curl -H "X-API-Key: e161fca0" https://my.api.mockaroo.com/calculations.json`
+
