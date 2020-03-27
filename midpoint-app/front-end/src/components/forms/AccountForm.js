@@ -4,11 +4,23 @@ import { Form, Button } from 'semantic-ui-react';
 import Validator from 'validator';
 import InlineError from "../messages/InlineError";
 
-class LoginForm extends React.Component {
+
+ function add() {
+     alert("Location Successfully Added");
+     console.log("added");
+ };
+
+ function delete() {
+     alert("Location Successfully Deleted");
+     console.log("deleted");
+ };
+
+
+class AccountForm extends React.Component {
     state = {
         data: {
-            email: '',
-            password: ''
+            name: '',
+            savedLocations: ''
         },
         loading: false,
         errors: {}
@@ -31,8 +43,7 @@ class LoginForm extends React.Component {
     validate = (data) => {
         // errors object should be empty if validation is OK & pass data further
         const errors = {};
-        if(!Validator.isEmail(data.email)) errors.email = "Invalid email";
-        if (!data.password) errors.password = "Can't be blank";
+        
         return errors;
     }
 
@@ -43,30 +54,27 @@ class LoginForm extends React.Component {
         return (
             <Form onSubmit={this.onSubmit}>
                 <Form.Field error={!!errors.email}>
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="name">Name</label>
                     <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        placeholder="example@example.com" 
-                        value={data.email}
+                        type="name" 
+                        id="name" 
+                        name="name" 
+                        placeholder="Niki Singh" 
+                        value={data.name}
                         onChange={this.onChange}
                     />
-                    {errors.email && <InlineError text={errors.email}/>}
+                    {errors.name && <InlineError text={errors.name}/>}
                 </Form.Field>
-                <Form.Field error={!!errors.password}>
-                    <label htmlFor="password">Password</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        placeholder="Make it secure" 
-                        value={data.password}
-                        onChange={this.onChange}
-                    />
-                    {errors.password && <InlineError text={errors.password}/>}
-                </Form.Field>
-                <Button primary>Login</Button>
+            
+                <p>Saved Locations:</p>
+            
+                // Need to left justify buttons
+                <button onClick={this.add}>Add Location</button> 
+                <button onClick={this.delete}>Delete Location</button> 
+                
+                
+                <p></p>
+                
             </Form>
         );
     }
@@ -76,4 +84,4 @@ LoginForm.propTypes = {
     submit: PropTypes.func.isRequired
 };
 
-export default LoginForm;
+export default AccountForm;
