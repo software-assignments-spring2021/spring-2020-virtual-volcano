@@ -3,7 +3,7 @@ import Footer from '../template/Footer';
 import Header from '../template/Header';
 import AreaForm from '../forms/AreaForm';
 
-function AreaPage(props) {
+function AreaPage (props) {
         return (
             <div>
                 <Header />
