@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Form, Button } from 'semantic-ui-react';
 import Validator from 'validator';
 import InlineError from "../messages/InlineError";
+import MapContainer from './MapContainer';
 
 function time() {
     alert("YAY! (time calculation TBD)");
@@ -89,6 +90,9 @@ class HomeForm extends React.Component {
                 <Button primary onClick={distance}>Distance</Button>
                 <Button primary onClick={price}>Price</Button>
                 <p></p>
+
+                {/*<MapContainer />*/}
+
                 <img src="https://picsum.photos/500/300?grayscale" />
 
                 {/* TODO: when pages are deeplinked with map + calculation API, you can utilize these buttons
@@ -129,3 +133,4 @@ HomeForm.propTypes = {
 };
 
 export default HomeForm;
+
