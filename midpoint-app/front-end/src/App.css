@@ -67,3 +67,9 @@
   padding: 40px 0 40px 0;
   text-align:center;
 }
+
+.map {
+  text-align:center;
+  width: 80%;
+  position: absolute;
+}
