@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Form, Button } from 'semantic-ui-react';
 import Validator from 'validator';
 import InlineError from "../messages/InlineError";
+import { Link } from "react-router-dom";
 
 class LoginForm extends React.Component {
     state = {
@@ -66,7 +67,7 @@ class LoginForm extends React.Component {
                     />
                     {errors.password && <InlineError text={errors.password} />}
                 </Form.Field>
-                <Button primary>Login</Button>
+                <Link to='/account'><Button primary>Login</Button></Link>
             </Form>
         );
     }
