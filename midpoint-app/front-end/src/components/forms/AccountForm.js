@@ -80,7 +80,7 @@ class AccountForm extends React.Component {
     }
 }
 
-LoginForm.propTypes = {
+AccountForm.propTypes = {
     submit: PropTypes.func.isRequired
 };
 

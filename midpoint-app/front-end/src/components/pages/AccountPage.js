@@ -1,11 +1,11 @@
 import React from "react";
-import LoginForm from '../forms/LoginForm'
+import AccountForm from '../forms/AccountForm'
 import Footer from '../template/Footer';
 import Header from '../template/Header';
-class LoginPage extends React.Component {
+class AccountPage extends React.Component {
 
     submit = (data) => {
-       // just to make sure we actually get data 
+        // just to make sure we actually get data 
         console.log(data);
     };
 
@@ -14,7 +14,7 @@ class LoginPage extends React.Component {
             <div>
                 <Header />
                 <h1>Your Account</h1>
-                <AccountForm submit={this.submit}/>
+                <AccountForm submit={this.submit} />
                 <Footer />
             </div>
         )
