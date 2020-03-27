@@ -5,6 +5,8 @@ import SideBar from "./sidebar";
 import { Route } from 'react-router-dom';
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
+import AreaPage from './components/pages/AreaPage';
+import ResultPage from './components/pages/ResultPage';
 
 
 const App = () => (
@@ -13,6 +15,8 @@ const App = () => (
 
     <Route path="/" exact component={HomePage} />
     <Route path="/login" exact component={LoginPage} />
+    <Route path="/area" exact component={AreaPage} />
+    <Route path="/result" exact component={ResultPage} />
   </div>
 );
 
