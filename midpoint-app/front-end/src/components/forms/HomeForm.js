@@ -3,21 +3,23 @@ import PropTypes from 'prop-types';
 import { Form, Button } from 'semantic-ui-react';
 import Validator from 'validator';
 import InlineError from "../messages/InlineError";
+import { Link } from "react-router-dom";
 
-function time() {
-    alert("YAY! (time calculation TBD)");
-    console.log("HURRRRAHHH");
-};
 
-function distance() {
-    alert("YAY! (distance calculation TBD)");
-    console.log("HURRRRAHHH");
-};
+// function time() {
+//     alert("YAY! (time calculation TBD)");
+//     console.log("HURRRRAHHH");
+// };
 
-function price() {
-    alert("YAY! (price calculation TBD)");
-    console.log("HURRRRAHHH");
-};
+// function distance() {
+//     alert("YAY! (distance calculation TBD)");
+//     console.log("HURRRRAHHH");
+// };
+
+// function price() {
+//     alert("YAY! (price calculation TBD)");
+//     console.log("HURRRRAHHH");
+// };
 
 class HomeForm extends React.Component {
 
@@ -85,9 +87,10 @@ class HomeForm extends React.Component {
                     {errors.otherLocation && <InlineError text={errors.otherLocation} />}
                 </Form.Field>
                 <p>Calculate Midpoint By:</p>
-                <Button primary onClick={time}>Time</Button>
-                <Button primary onClick={distance}>Distance</Button>
-                <Button primary onClick={price}>Price</Button>
+                <Link to='/area'><Button primary>Time</Button></Link>
+                <Link to='/area'><Button primary>Distance</Button></Link>
+                <Link to='/area'><Button primary>Price</Button></Link>
+                
                 <p></p>
                 <img src="https://picsum.photos/500/300?grayscale" />
 
