@@ -93,9 +93,6 @@ class HomeForm extends React.Component {
                 <Link to='/area'><Button primary>Time</Button></Link>
                 <Link to='/area'><Button primary>Distance</Button></Link>
                 <Link to='/area'><Button primary>Price</Button></Link>
-
-
-
                 <p></p>
 
                 {/*<MapContainer />*/}
