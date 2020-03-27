@@ -13,6 +13,7 @@ class HomePage extends Component {
                 <Header />
                 <HomeForm />
                 {/* <Link to='/login'>Login</Link> */}
+                {/* <Link to='/area'>Area</Link> */}
                 <Footer />
             </div>
         )
