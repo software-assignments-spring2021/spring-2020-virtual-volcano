@@ -1,23 +1,18 @@
 import React, { Component } from 'react';
-
-import { Link } from "react-router-dom";
 import Footer from '../template/Footer';
 import Header from '../template/Header';
-import HomeForm from '../forms/HomeForm';
-// import SideBar from "../../sidebar";
+import AreaForm from '../forms/AreaForm';
 
-class HomePage extends Component {
-    render() {
+function AreaPage (props) {
         return (
             <div>
                 <Header />
-                <HomeForm />
+                <AreaForm />
+                {/* Link to final calculated midpoint page instead of login */}
                 {/* <Link to='/login'>Login</Link> */}
-                {/* <Link to='/area'>Area</Link> */}
                 <Footer />
             </div>
         )
-    }
 }
 
-export default HomePage;
+export default AreaPage;
