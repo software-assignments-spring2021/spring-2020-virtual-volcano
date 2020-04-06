@@ -59,7 +59,7 @@ class MapContainer extends Component {
         return (
             <LoadScript
                 id="script-loader"
-                googleMapsApiKey="AIzaSyA-aPju661HDO3qXNAbXnVRaV0Yh3AGQBE"
+                googleMapsApiKey="Apikeyhere"
                 libraries={["places"]}
             >
                 <GoogleMap
@@ -161,5 +161,5 @@ export default MapContainer;
 // }
 
 // export default GoogleApiWrapper({
-//     apiKey: 'AIzaSyDSXHPcDhkdlPdDPBR0zNqww051lOJcXxs'
+//     apiKey: ''
 // })(MapContainer);
