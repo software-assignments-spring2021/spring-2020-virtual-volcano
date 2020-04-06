@@ -4,6 +4,7 @@ import { Form, Button, ButtonGroup } from 'semantic-ui-react';
 import Dropdown from 'react-dropdown';
 import { Link } from "react-router-dom";
 
+import MapContainer from './MapContainer';
 
 function ResultForm(props) {
     const resultOptions = [
@@ -21,7 +22,7 @@ function ResultForm(props) {
             <p></p>
             <Dropdown options={resultOptions} placeholder="Get Directions" />
             <p></p>
-            <img src="https://picsum.photos/500/300?grayscale" />
+            <MapContainer />
         </Form>
     )
 }

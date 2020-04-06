@@ -4,6 +4,8 @@ import { Form, Button } from 'semantic-ui-react';
 import Dropdown from 'react-dropdown';
 import { Link } from "react-router-dom";
 
+import MapContainer from './MapContainer';
+
 
 function AreaForm(props) {
   const radiusOptions = [
@@ -24,7 +26,7 @@ function AreaForm(props) {
       <p></p>
         Browse Midpoint Area on the map:
       <p></p>
-      <img src="https://picsum.photos/500/300?grayscale" />
+      <MapContainer />
       <p></p>
       <Link to='/result'><Button primary>Midpoint Chosen!</Button></Link>
     </Form>
