@@ -15,7 +15,12 @@ class HomePage extends Component {
                 <HomeForm />
                 {/* <Link to='/login'>Login</Link> */}
                 {/* <Link to='/area'>Area</Link> */}
-                <MapContainer />
+                <MapContainer
+                    google={this.props.google}
+                    center={{ lat: 18.5204, lng: 73.8567 }}
+                    height='300px'
+                    zoom={15}
+                />
                 <Footer />
             </div>
         )
