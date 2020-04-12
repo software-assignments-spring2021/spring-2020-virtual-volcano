@@ -22,7 +22,6 @@ function ResultForm(props) {
             <p></p>
             <Dropdown options={resultOptions} placeholder="Get Directions" />
             <p></p>
-            <MapContainer />
         </Form>
     )
 }
