@@ -14,7 +14,7 @@ class AreaPage extends Component {
                 <Header />
                 <AreaForm />
                 {/* Link to final calculated midpoint page instead of login */}
-                <Link to="/LoginForm">Login</Link>
+                <Link to='login'>Login</Link>
                 {/* <Link to='/login'>Login</Link> */}
                 <MapContainer
                     google={this.props.google}
