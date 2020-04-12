@@ -3,6 +3,7 @@ import Footer from '../template/Footer';
 import Header from '../template/Header';
 import AreaForm from '../forms/AreaForm';
 import MapContainer from '../forms/MapContainer';
+// import SideBar from "../../sidebar";
 import { Link } from "react-router-dom";
 import { BrowserRouter } as Router from "react-router-dom";
 
