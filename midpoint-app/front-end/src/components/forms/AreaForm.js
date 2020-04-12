@@ -26,8 +26,6 @@ function AreaForm(props) {
       <p></p>
         Browse Midpoint Area on the map:
       <p></p>
-      <MapContainer />
-      <p></p>
       <Link to='/result'><Button primary>Midpoint Chosen!</Button></Link>
     </Form>
   )
