@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Form, Button } from 'semantic-ui-react';
 import Validator from 'validator';
 import InlineError from "../messages/InlineError";
+import { Link } from "react-router-dom";
 
 class LoginForm extends React.Component {
     state = {
@@ -14,10 +15,10 @@ class LoginForm extends React.Component {
         errors: {}
     };
 
-    onChange = e => 
-        this.setState({ 
-            data: { ...this.state.data, [e.target.name]: e.target.value}
-    });
+    onChange = e =>
+        this.setState({
+            data: { ...this.state.data, [e.target.name]: e.target.value }
+        });
 
     onSubmit = () => {
         const errors = this.validate(this.state.data);
@@ -31,7 +32,7 @@ class LoginForm extends React.Component {
     validate = (data) => {
         // errors object should be empty if validation is OK & pass data further
         const errors = {};
-        if(!Validator.isEmail(data.email)) errors.email = "Invalid email";
+        if (!Validator.isEmail(data.email)) errors.email = "Invalid email";
         if (!data.password) errors.password = "Can't be blank";
         return errors;
     }
@@ -44,29 +45,29 @@ class LoginForm extends React.Component {
             <Form onSubmit={this.onSubmit}>
                 <Form.Field error={!!errors.email}>
                     <label htmlFor="email">Email</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        placeholder="example@example.com" 
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="example@example.com"
                         value={data.email}
                         onChange={this.onChange}
                     />
-                    {errors.email && <InlineError text={errors.email}/>}
+                    {errors.email && <InlineError text={errors.email} />}
                 </Form.Field>
                 <Form.Field error={!!errors.password}>
                     <label htmlFor="password">Password</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        placeholder="Make it secure" 
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Make it secure"
                         value={data.password}
                         onChange={this.onChange}
                     />
-                    {errors.password && <InlineError text={errors.password}/>}
+                    {errors.password && <InlineError text={errors.password} />}
                 </Form.Field>
-                <Button primary>Login</Button>
+                <Link to='/account'><Button primary>Login</Button></Link>
             </Form>
         );
     }

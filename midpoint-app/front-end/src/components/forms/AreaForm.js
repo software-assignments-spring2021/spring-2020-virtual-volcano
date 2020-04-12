@@ -4,31 +4,31 @@ import { Form, Button } from 'semantic-ui-react';
 import Dropdown from 'react-dropdown';
 import { Link } from "react-router-dom";
 
+import MapContainer from './MapContainer';
 
-function AreaForm (props) {
-    const radiusOptions = [
-        '0.1 Miles', '0.25 Miles', '0.5 Miles'
-      ];
-    
-    const thingsOptions = [
-        'Restaurants', 'Bars', 'Shops'
-      ];
 
-    return (
-        <Form>
-        <p>Calculate Midpoint Area By:</p>
-        {/* Implement title and dropdown buttons to select radius and things to do  */}
-        <Dropdown options={radiusOptions} placeholder="Select Radius"/>
-        <p></p>
-        <Dropdown options={thingsOptions} placeholder="Things to Do"/>
-        <p></p>
+function AreaForm(props) {
+  const radiusOptions = [
+    '0.1 Miles', '0.25 Miles', '0.5 Miles'
+  ];
+
+  const thingsOptions = [
+    'Restaurants', 'Bars', 'Shops'
+  ];
+
+  return (
+    <Form className="location-box">
+      <p>Calculate Midpoint Area By:</p>
+      {/* Implement title and dropdown buttons to select radius and things to do  */}
+      <Dropdown options={radiusOptions} placeholder="Select Radius" />
+      <p></p>
+      <Dropdown options={thingsOptions} placeholder="Things to Do" />
+      <p></p>
         Browse Midpoint Area on the map:
-        <p></p>
-        <img src="https://picsum.photos/500/300?grayscale" />
-        <p></p>
-        <Link to='/'><Button primary>Midpoint Chosen!</Button></Link>
-        </Form>
-    )
+      <p></p>
+      <Link to='/result'><Button primary>Midpoint Chosen!</Button></Link>
+    </Form>
+  )
 }
 
 export default AreaForm;

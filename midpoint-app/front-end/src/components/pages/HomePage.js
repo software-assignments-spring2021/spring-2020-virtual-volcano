@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import Footer from '../template/Footer';
 import Header from '../template/Header';
-import HomeForm from '../forms/HomeForm';
+import HomeForm from '../forms/HomeForm'
+import MapContainer from '../forms/MapContainer';
 // import SideBar from "../../sidebar";
 
 class HomePage extends Component {
@@ -14,6 +15,12 @@ class HomePage extends Component {
                 <HomeForm />
                 {/* <Link to='/login'>Login</Link> */}
                 {/* <Link to='/area'>Area</Link> */}
+                <MapContainer
+                    google={this.props.google}
+                    center={{ lat: 18.5204, lng: 73.8567 }}
+                    height='300px'
+                    zoom={15}
+                />
                 <Footer />
             </div>
         )

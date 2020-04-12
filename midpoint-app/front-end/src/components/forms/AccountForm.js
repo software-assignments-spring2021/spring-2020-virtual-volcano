@@ -5,15 +5,15 @@ import Validator from 'validator';
 import InlineError from "../messages/InlineError";
 
 
- function add() {
-     alert("Location Successfully Added");
-     console.log("added");
- };
+function add() {
+    alert("Location Successfully Added");
+    console.log("added");
+};
 
- function delete() {
-     alert("Location Successfully Deleted");
-     console.log("deleted");
- };
+function remove() {
+    alert("Location Successfully Deleted");
+    console.log("deleted");
+};
 
 
 class AccountForm extends React.Component {
@@ -26,10 +26,10 @@ class AccountForm extends React.Component {
         errors: {}
     };
 
-    onChange = e => 
-        this.setState({ 
-            data: { ...this.state.data, [e.target.name]: e.target.value}
-    });
+    onChange = e =>
+        this.setState({
+            data: { ...this.state.data, [e.target.name]: e.target.value }
+        });
 
     onSubmit = () => {
         const errors = this.validate(this.state.data);
@@ -43,7 +43,7 @@ class AccountForm extends React.Component {
     validate = (data) => {
         // errors object should be empty if validation is OK & pass data further
         const errors = {};
-        
+
         return errors;
     }
 
@@ -55,32 +55,32 @@ class AccountForm extends React.Component {
             <Form onSubmit={this.onSubmit}>
                 <Form.Field error={!!errors.email}>
                     <label htmlFor="name">Name</label>
-                    <input 
-                        type="name" 
-                        id="name" 
-                        name="name" 
-                        placeholder="Niki Singh" 
+                    <input
+                        type="name"
+                        id="name"
+                        name="name"
+                        placeholder="Niki Singh"
                         value={data.name}
                         onChange={this.onChange}
                     />
-                    {errors.name && <InlineError text={errors.name}/>}
+                    {errors.name && <InlineError text={errors.name} />}
                 </Form.Field>
-            
+
                 <p>Saved Locations:</p>
-            
+
                 // Need to left justify buttons
-                <button onClick={this.add}>Add Location</button> 
-                <button onClick={this.delete}>Delete Location</button> 
-                
-                
+                <button onClick={this.add}>Add Location</button>
+                <button onClick={this.remove}>Delete Location</button>
+
+
                 <p></p>
-                
+
             </Form>
         );
     }
 }
 
-LoginForm.propTypes = {
+AccountForm.propTypes = {
     submit: PropTypes.func.isRequired
 };
 
