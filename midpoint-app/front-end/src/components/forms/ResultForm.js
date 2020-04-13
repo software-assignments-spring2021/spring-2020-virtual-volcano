@@ -37,7 +37,10 @@ function ResultForm(props) {
             options={resultOptions}
             style={{ width: "25%",left: "48%", right: "auto", transform: "translate(-50%,0)", float: "left"}}
             />
-            <Button animated style = {{float: "right", marginRight: "35%", position: "fixed"}}>
+            <Button 
+            animated style = {{float: "right", marginRight: "35%", position: "fixed"}} 
+            onClick={()=>{ window.open("https://www.google.com/maps"); }}
+            >
                 <Button.Content visible>Go</Button.Content>
                 <Button.Content hidden>
                     <Icon name='arrow right'/>
