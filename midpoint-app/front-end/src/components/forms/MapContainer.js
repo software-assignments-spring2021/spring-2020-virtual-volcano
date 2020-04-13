@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { GoogleMap, withGoogleMap, withScriptjs, InfoWindow, Marker } from "react-google-maps"
 import Geocode from "react-geocode"
 import Autocomplete from 'react-google-autocomplete'
+import axios from 'axios'
 
 Geocode.setApiKey("MYAPIKEY")
 Geocode.enableDebug();
@@ -26,6 +27,25 @@ class MapContainer extends React.Component {
             }
         }
 
+    }
+
+    handleSubmit = event => {
+        event.preventDefault();
+
+        const user1latlng = {
+            lat: this.state.markerPosition.lat,
+            lng: this.state.markerPosition.lng
+        }
+
+        axios.post('http://localhost:3000', { user1latlng })
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+            })
+            .catch(function (error) {
+                console.log("Error posting");
+                console.log(error);
+            });
     }
 
     componentDidMount() {
@@ -156,6 +176,10 @@ class MapContainer extends React.Component {
                     markerPosition: {
                         lat: newLat,
                         lng: newLng
+                    },
+                    mapPosition: {
+                        lat: newLat,
+                        lng: newLng
                     }
                 })
             },
@@ -256,6 +280,16 @@ class MapContainer extends React.Component {
                         <label htmlFor="">Address</label>
                         <input type="text" name="address" className="form-control"
                             onChange={this.onChange} readOnly="readOnly" value={this.state.address} style={{ width: '100%' }} />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="">Lat</label>
+                        <input type="text" name="lat" className="form-control"
+                            onChange={this.onChange} readOnly="readOnly" value={this.state.mapPosition.lat} style={{ width: '100%' }} />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="">Lng</label>
+                        <input type="text" name="lng" className="form-control"
+                            onChange={this.onChange} readOnly="readOnly" value={this.state.mapPosition.lng} style={{ width: '100%' }} />
                     </div>
                     <br></br>
                 </div>
