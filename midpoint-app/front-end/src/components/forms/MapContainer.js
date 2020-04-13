@@ -25,6 +25,7 @@ class MapContainer extends React.Component {
                 lng: this.props.center.lng
             }
         }
+
     }
 
     componentDidMount() {
@@ -34,8 +35,9 @@ class MapContainer extends React.Component {
                     addressArray = response.results[0].address_components,
                     city = this.getCity(addressArray),
                     area = this.getArea(addressArray),
-                    state = this.getSnapshotBeforeUpdate(addressArray);
+                    state = this.getState(addressArray);
 
+                console.log('city', city, area, state);
                 this.setState({
                     address: (address) ? address : '',
                     area: (area) ? area : '',
@@ -64,7 +66,7 @@ class MapContainer extends React.Component {
     }
 
     getCity = (addressArray) => {
-        let city = ''
+        let city = '';
         for (let i = 0; i < addressArray.length; i++) {
             if (addressArray[i].types[0] && 'administrative_area_level_2' === addressArray[i].types[0]) {
                 city = addressArray[i].long_name;
@@ -145,11 +147,16 @@ class MapContainer extends React.Component {
                     city = this.getCity(addressArray),
                     area = this.getArea(addressArray),
                     state = this.getState(addressArray);
+
                 this.setState({
                     address: (address) ? address : '',
                     area: (area) ? area : '',
                     city: (city) ? city : '',
-                    state: (state) ? state : ''
+                    state: (state) ? state : '',
+                    markerPosition: {
+                        lat: newLat,
+                        lng: newLng
+                    }
                 })
             },
             error => {
@@ -160,44 +167,54 @@ class MapContainer extends React.Component {
 
     render() {
 
-        const AsyncMap = withScriptjs(
+        const Autocompletion = withScriptjs(
             withGoogleMap(
                 props => (
-                    <GoogleMap google={this.props.google}
-                        defaultZoom={this.props.zoom}
-                        defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
-                    >
-
+                    <React.Fragment>
                         <Autocomplete
                             style={{
                                 width: '100%',
                                 height: '40px',
                                 paddingLeft: '16px',
                                 marginTop: '2px',
-                                marginBottom: '100px'
                             }}
                             onPlaceSelected={this.onPlaceSelected}
                             types={['(regions)']}
                         />
+                    </React.Fragment>
+                )
+            )
+        )
 
-                        <Marker google={this.props.google}
-                            name={'Dolores park'}
-                            draggable={true}
-                            onDragEnd={this.onMarkerDragEnd}
-                            position={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }}
-                        />
-                        <Marker />
+        const AsyncMap = withScriptjs(
+            withGoogleMap(
+                props => (
+                    <React.Fragment>
 
-                        <InfoWindow
-                            onClose={this.onInfoWindowClose}
-                            position={{ lat: (this.state.markerPosition.lat + 0.0018), lng: this.state.markerPosition.lng }}
+                        <GoogleMap google={this.props.google}
+                            defaultZoom={this.props.zoom}
+                            defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
                         >
-                            <div>
-                                <span style={{ padding: 0, margin: 0 }}>{this.state.address}</span>
-                            </div>
-                        </InfoWindow>
 
-                    </GoogleMap>
+                            <Marker google={this.props.google}
+                                name={'Dolores park'}
+                                draggable={true}
+                                onDragEnd={this.onMarkerDragEnd}
+                                position={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }}
+                            />
+                            <Marker />
+
+                            <InfoWindow
+                                onClose={this.onInfoWindowClose}
+                                position={{ lat: (this.state.markerPosition.lat + 0.0018), lng: this.state.markerPosition.lng }}
+                            >
+                                <div>
+                                    <span style={{ padding: 0, margin: 0 }}>{this.state.address}</span>
+                                </div>
+                            </InfoWindow>
+
+                        </GoogleMap>
+                    </React.Fragment>
                 )
             )
         )
@@ -205,11 +222,25 @@ class MapContainer extends React.Component {
         let map;
         if (this.props.center.lat !== undefined) {
             map = <div>
+                <Autocompletion
+                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=MYAPIKEY&libraries=places"
+                    loadingElement={
+                        <div style={{ height: '0px' }} />
+                    }
+                    containerElement={
+                        <div style={{ height: '50px' }} />
+                    }
+                    mapElement={
+                        <div style={{ height: '0px' }} />
+                    }
+                >
+
+                </Autocompletion>
                 <div>
-                    <div className="form-group">
+                    {/* <div className="form-group">
                         <label htmlFor="">City</label>
                         <input type="text" name="city" className="form-control"
-                            onChange={this.onChange} readOnly="readOnly" value={this.state.area} />
+                            onChange={this.onChange} readOnly="readOnly" value={this.state.city} />
                     </div>
                     <div className="form-group">
                         <label htmlFor="">Area</label>
@@ -220,15 +251,17 @@ class MapContainer extends React.Component {
                         <label htmlFor="">State</label>
                         <input type="text" name="state" className="form-control"
                             onChange={this.onChange} readOnly="readOnly" value={this.state.state} />
-                    </div>
+                    </div> */}
                     <div className="form-group">
                         <label htmlFor="">Address</label>
                         <input type="text" name="address" className="form-control"
-                            onChange={this.onChange} readOnly="readOnly" value={this.state.address} />
+                            onChange={this.onChange} readOnly="readOnly" value={this.state.address} style={{ width: '100%' }} />
                     </div>
+                    <br></br>
                 </div>
+
                 <AsyncMap
-                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=MYAPIKEY&libraries=places"
+                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjZnslPWbyKrTg3vm-m9NX6iObVzX7Fkw&libraries=places"
                     loadingElement={
                         <div style={{ height: '100%' }} />
                     }

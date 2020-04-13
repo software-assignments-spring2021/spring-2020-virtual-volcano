@@ -17,7 +17,14 @@ class HomePage extends Component {
                 {/* <Link to='/area'>Area</Link> */}
                 <MapContainer
                     google={this.props.google}
-                    center={{ lat: 18.5204, lng: 73.8567 }}
+                    center={{ lat: 40.729232, lng: -73.993083 }}
+                    height='300px'
+                    zoom={15}
+                />
+                <br></br>
+                <MapContainer
+                    google={this.props.google}
+                    center={{ lat: 40.729232, lng: -73.993083 }}
                     height='300px'
                     zoom={15}
                 />
