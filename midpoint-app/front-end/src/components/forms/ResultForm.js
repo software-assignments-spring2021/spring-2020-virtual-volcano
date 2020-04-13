@@ -4,6 +4,17 @@ import { Form, Button, ButtonGroup,Dropdown, Icon  } from 'semantic-ui-react';
 import { Link } from "react-router-dom";
 import MapContainer from './MapContainer';
 
+function mapsSelector() {
+    if /* if we're on iOS, open in Apple Maps */
+      ((navigator.platform.indexOf("iPhone") != -1) || 
+       (navigator.platform.indexOf("iPod") != -1) || 
+       (navigator.platform.indexOf("iPad") != -1))
+      window.open("maps://maps.google.com/maps");
+  
+    else /* else use Google */
+      window.open("https://maps.google.com/maps");
+  }
+
 function ResultForm(props) {
 
     const resultOptions = [
@@ -39,7 +50,8 @@ function ResultForm(props) {
             />
             <Button 
             animated style = {{float: "right", marginRight: "35%", position: "fixed"}} 
-            onClick={()=>{ window.open("https://www.google.com/maps"); }}
+            // onClick={()=>{ window.open("https://www.google.com/maps"); }}
+            onClick={()=>{mapsSelector()}}
             >
                 <Button.Content visible>Go</Button.Content>
                 <Button.Content hidden>
