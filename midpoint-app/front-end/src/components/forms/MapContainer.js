@@ -261,7 +261,7 @@ class MapContainer extends React.Component {
                 </div>
 
                 <AsyncMap
-                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjZnslPWbyKrTg3vm-m9NX6iObVzX7Fkw&libraries=places"
+                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=MYAPIKEY&libraries=places"
                     loadingElement={
                         <div style={{ height: '100%' }} />
                     }
