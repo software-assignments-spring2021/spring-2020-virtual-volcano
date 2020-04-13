@@ -62,6 +62,7 @@ class HomeForm extends React.Component {
 
 
         return (
+
             <Form className="location-box" onSubmit={this.onSubmit}>
                 <Form.Field error={!!errors.userLocation}>
                     <label htmlFor="userLocation">Your Location</label>
