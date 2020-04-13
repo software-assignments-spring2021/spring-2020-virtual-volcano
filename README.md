@@ -20,13 +20,13 @@ UPDATE: Curl for Users API `curl -H "X-API-Key: e161fca0" https://my.api.mockaro
   ### Running the project
 After cloning the project in your local repository, navigate to the folder through command line.
 If you are in the midpoint-app folder, do as below to run the server.
-'$ cd back-end'
-'$ npm start'
+`$ cd back-end`
+`$ npm start`
 In another commandline window, navigate to the midpoint app folder again.
 Then, do as below to run the front-end.
-'$ cd front-end'
-'$ npm start'
+`$ cd front-end`
+`$ npm start`
 A message might display due to duplicate localhost address.
-Type 'y' to continue.
+Type `y` to continue.
 
 
