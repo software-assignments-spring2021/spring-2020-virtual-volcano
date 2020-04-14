@@ -72,6 +72,7 @@ app.post("/login", (req, res) => {
     console.log(req.body);
     // ... then send a response of some kind to client
     res.json(data);
+    res.sendStatus(200);
   });
 
 //function algorithm(lat1, lng1, lat2, lng2){
