@@ -49,6 +49,8 @@ class MapContainer extends React.Component {
     }
 
     componentDidMount() {
+        console.log("here did mount")
+        console.log(this.state.mapPosition);
         Geocode.fromLatLng(this.state.mapPosition.lat, this.state.mapPosition.lng).then(
             response => {
                 const address = response.results[0].formatted_address,
@@ -63,6 +65,7 @@ class MapContainer extends React.Component {
                     area: (area) ? area : '',
                     city: (city) ? city : '',
                     state: (state) ? state : '',
+
                 })
             },
             error => {
@@ -77,13 +80,28 @@ class MapContainer extends React.Component {
             this.state.address !== nextState.address ||
             this.state.city !== nextState.city ||
             this.state.area !== nextState.area ||
-            this.state.state !== nextState.state
+            this.state.state !== nextState.state ||
+            this.state.mapPosition.lat !== nextState.mapPosition.lat
         ) {
             return true
         } else if (this.props.center.lat === nextProps.center.lat) {
             return false
+        } else {
+            console.log("UPDATE!!!")
+            return true
         }
     }
+
+
+    // componentDidUpdate(prevProps) {
+    //     console.log(this.props.state.mapPosition.lat);
+    //     // if (this.props.state.mapPosition.lat !== prevProps.state.mapPosition.lat) {
+    //     //     console.log('different!');
+    //     //     console.log(this.props.state.mapPosition.lat);
+    //     //     console.log(prevProps.state.mapPosition.lat);
+
+    //     // }
+    // }
 
     getCity = (addressArray) => {
         let city = '';
@@ -190,7 +208,7 @@ class MapContainer extends React.Component {
     }
 
     render() {
-
+        console.log("MApmadehere")
         const Autocompletion = withScriptjs(
             withGoogleMap(
                 props => (
@@ -222,7 +240,7 @@ class MapContainer extends React.Component {
 
                             <Marker google={this.props.google}
                                 name={'Dolores park'}
-                                draggable={true}
+                                draggable={false}
                                 onDragEnd={this.onMarkerDragEnd}
                                 position={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }}
                             />
@@ -246,8 +264,8 @@ class MapContainer extends React.Component {
         let map;
         if (this.props.center.lat !== undefined) {
             map = <div>
-                <Autocompletion
-                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=MYAPIKEY&libraries=places"
+                {/* <Autocompletion
+                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw9LvtDJ_MXyFP2hS-tG_GqlfECOnY-QIY&libraries=places"
                     loadingElement={
                         <div style={{ height: '0px' }} />
                     }
@@ -259,7 +277,7 @@ class MapContainer extends React.Component {
                     }
                 >
 
-                </Autocompletion>
+                </Autocompletion> */}
                 <div>
                     {/* <div className="form-group">
                         <label htmlFor="">City</label>
@@ -314,174 +332,4 @@ class MapContainer extends React.Component {
     }
 }
 
-export default MapContainer
-
-// import React, { Component } from 'react'
-// import { GoogleMap, LoadScript, StandaloneSearchBox, Marker, InfoWindow } from '@react-google-maps/api'
-// import {GoogleMap, withScriptjs, InfoWindow, Marker} from "react-google-maps"
-
-// Geocode.setApiKey("")
-// Geocode.enableDebug();
-
-// const position = {
-//     lat: 40.729232,
-//     lng: -73.993083
-// }
-
-// const divStyle = {
-//     background: `white`,
-//     border: `1px solid #ccc`,
-//     padding: 15
-// }
-
-// const onLoad = (marker, infoWindow) => {
-//     console.log('marker: ', marker)
-//     console.log('infoWindow: ', infoWindow)
-
-// }
-
-// class MapContainer extends Component {
-
-//     position = {
-//         lat: 40.729232,
-//         lng: -73.993083
-//     }
-
-//     state = {
-//         showingInfoWindow: false,  //Hides or the shows the infoWindow
-//         activeMarker: {},          //Shows the active marker upon click
-//         selectedPlace: {}          //Shows the infoWindow to the selected place upon a marker
-//     };
-
-
-
-
-//     onLoad = (marker, infoWindow) => {
-//         console.log('marker: ', marker)
-//         console.log('infoWindow: ', infoWindow)
-//     }
-
-//     onMarkerClick = (props, marker, e) =>
-//         this.setState({
-//             selectedPlace: props,
-//             activeMarker: marker,
-//             showingInfoWindow: true
-//         });
-
-//     onClose = props => {
-//         if (this.state.showingInfoWindow) {
-//             this.setState({
-//                 showingInfoWindow: false,
-//                 activeMarker: null
-//             });
-//         }
-//     };
-
-//     render() {
-//         return (
-//             <LoadScript
-//                 id="script-loader"
-//                 googleMapsApiKey="Apikeyhere"
-//                 libraries={["places"]}
-//             >
-//                 <GoogleMap
-//                     id='example-map'
-//                     mapContainerStyle={{
-//                         height: "300px",
-//                         width: "800px"
-//                     }}
-//                     zoom={17}
-//                     center={{
-//                         lat: 40.729232,
-//                         lng: -73.993083
-//                     }}
-//                 >
-//                     <Marker
-//                         onLoad={onLoad}
-//                         position={position}
-//                         onClick={this.onMarkerClick}
-//                         title={'New York University'}
-//                     />
-//                     <InfoWindow
-//                         position={{
-//                             lat: 40.729432,
-//                             lng: -73.993083
-//                         }}
-//                         onLoad={onLoad}
-//                         marker={this.state.activeMarker}
-//                         visible={this.state.showingInfoWindow}
-//                         onClose={this.onClose}
-//                     >
-//                         <div>
-//                             <h4>New York University</h4>
-//                             {/* <h4>{this.state.selectedPlace.name}</h4> */}
-//                         </div>
-//                     </InfoWindow>
-
-
-
-//                 </GoogleMap>
-//             </LoadScript >
-//         )
-//     }
-// }
-
-// export default MapContainer;
-
-// import React from 'react';
-// import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
-// import ReactDOM from 'react-dom';
-
-// class MapContainer extends React.Component {
-
-//     state = {
-//         showingInfoWindow: false,  //Hides or the shows the infoWindow
-//         activeMarker: {},          //Shows the active marker upon click
-//         selectedPlace: {}          //Shows the infoWindow to the selected place upon a marker
-//     };
-
-//     onMarkerClick = (props, marker, e) =>
-//         this.setState({
-//             selectedPlace: props,
-//             activeMarker: marker,
-//             showingInfoWindow: true
-//         });
-
-//     onClose = props => {
-//         if (this.state.showingInfoWindow) {
-//             this.setState({
-//                 showingInfoWindow: false,
-//                 activeMarker: null
-//             });
-//         }
-//     };
-
-//     render() {
-//         return (
-//             <Map mapContainerClassName="map"
-//                 google={this.props.google}
-//                 zoom={17}
-//                 initialCenter={{ lat: 40.729232, lng: -73.993083 }}
-
-//             >
-//                 <Marker
-//                     onClick={this.onMarkerClick}
-//                     name={'New York University'}
-//                 />
-//                 <InfoWindow
-//                     marker={this.state.activeMarker}
-//                     visible={this.state.showingInfoWindow}
-//                     onClose={this.onClose}
-//                 >
-//                     <div>
-//                         <h4>{this.state.selectedPlace.name}</h4>
-//                     </div>
-//                 </InfoWindow>
-//             </Map >
-//         );
-//     }
-// }
-
-// export default GoogleApiWrapper({
-//     apiKey: ''
-// })(MapContainer);
+export default MapContainer;

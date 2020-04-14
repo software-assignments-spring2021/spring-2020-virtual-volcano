@@ -59,6 +59,18 @@ app.get("/area", (req, res) => {
     console.log(midpoint);
 });
 
+app.get("/result", (req, res) => {
+    console.log("Sending over the midpoint to the result page");
+    console.log(midpoint);
+    const data = {
+        status: 'success!',
+        message: 'congratulations receiving the midpoint!',
+        your_data: midpoint
+    }
+    console.log(data);
+    res.json(midpoint);
+});
+
 //the login page is posting but we are not receiving 
 app.post("/login", (req, res) => {
     const data = {
@@ -111,21 +123,11 @@ function algorithm(data){
 // app.post("/login", (req, res) => {
 //     const email = req.body.email
 //     const password = req.body.password
-//     //const password = req.body.password
 //     console.log("Your email is ${email} and password is ${password}")
 //         // ... then send a response of some kind to client
 //         res.json(data);
+//      res.send("We got your data!");
 // });
-
-//   app.post("/post-example", (req, res) => {
-//     const name = req.body.your_name;
-//     const email = req.body.your_email;
-//     const agree = req.body.agree;
-//     // now do something amazing with this data...
-//     // ... then send a response of some kind
-//     //res.json(data)
-//     res.send("We got your data!");
-//   });
 
 // export the express app we created to make it available to other modules
 module.exports = app;
