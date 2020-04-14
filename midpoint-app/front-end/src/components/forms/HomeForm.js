@@ -11,7 +11,7 @@ Geocode.setApiKey("MYAPIKEY");
 Geocode.enableDebug();
 
 class HomeForm extends React.Component {
-    
+
     state = {
         data: {
             userLocation: '',
@@ -20,7 +20,7 @@ class HomeForm extends React.Component {
             lng1: '',
             lat2: '',
             lng2: ''
-            
+
         },
         loading: false,
         errors: {}
@@ -54,31 +54,31 @@ class HomeForm extends React.Component {
 
         Geocode.fromAddress(data.userLocation).then(
             response => {
-            //   const { lat, lng } = response.results[0].geometry.location.lat();
-              const lat1 = response.results[0].geometry.location.lat;
-              const lng1 = response.results[0].geometry.location.lng;
-              console.log(lat1);
-              console.log(lng1);
-              data.lat1 = lat1;
-              data.lng1 = lng1;
+                //   const { lat, lng } = response.results[0].geometry.location.lat();
+                const lat1 = response.results[0].geometry.location.lat;
+                const lng1 = response.results[0].geometry.location.lng;
+                console.log(lat1);
+                console.log(lng1);
+                data.lat1 = lat1;
+                data.lng1 = lng1;
             },
             error => {
-              console.error("NOOOO");
+                console.error("NOOOO");
             }
         );
 
         Geocode.fromAddress(data.otherLocation).then(
             response => {
-              //const { lat, lng } = response.results[0].geometry.location;
-              const lat2 = response.results[0].geometry.location.lat;
-              const lng2 = response.results[0].geometry.location.lng;
-              console.log(lat2);
-              console.log(lng2);
-              data.lat2 = lat2;
-              data.lng2 = lng2;
+                //const { lat, lng } = response.results[0].geometry.location;
+                const lat2 = response.results[0].geometry.location.lat;
+                const lng2 = response.results[0].geometry.location.lng;
+                console.log(lat2);
+                console.log(lng2);
+                data.lat2 = lat2;
+                data.lng2 = lng2;
             },
             error => {
-              console.error("NOOOO");
+                console.error("NOOOO");
             }
         );
 
@@ -118,7 +118,7 @@ class HomeForm extends React.Component {
                 <Link to='/area'><Button primary>Price</Button></Link> */}
                 <p></p>
             </Form>
-            
+
         );
 
     }

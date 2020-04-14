@@ -12,15 +12,15 @@ class HomePage extends Component {
 
     submit = (data) => {
         console.log(data);
-            //   //try to post request
+        //   //try to post request
         axios.post('http://localhost:3000/', data)
-        .then(function (response){
-            console.log("Success posting the all coordinates");
-            console.log(response);
-        } ).catch(function (error) {
-            console.log("Error posting");
-            console.log(error);
-        });
+            .then(function (response) {
+                console.log("Success posting the all coordinates");
+                console.log(response);
+            }).catch(function (error) {
+                console.log("Error posting");
+                console.log(error);
+            });
         this.props.history.push('/result');
     }
 
@@ -28,7 +28,7 @@ class HomePage extends Component {
         return (
             <div>
                 <Header />
-                <HomeForm submit={this.submit}/>
+                <HomeForm submit={this.submit} />
                 <Footer />
             </div>
         )
