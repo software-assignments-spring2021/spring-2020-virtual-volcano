@@ -4,30 +4,31 @@ import { Link } from "react-router-dom";
 import Footer from '../template/Footer';
 import Header from '../template/Header';
 import HomeForm from '../forms/HomeForm'
-import MapContainer from '../forms/MapContainer';
+// import MapContainer from '../forms/MapContainer';
 // import SideBar from "../../sidebar";
+import axios from 'axios';
 
 class HomePage extends Component {
+
+    submit = (data) => {
+        console.log(data);
+            //   //try to post request
+        axios.post('http://localhost:3000/', data)
+        .then(function (response){
+            console.log("Success posting the all coordinates");
+            console.log(response);
+        } ).catch(function (error) {
+            console.log("Error posting");
+            console.log(error);
+        });
+        this.props.history.push('/results');
+    }
+
     render() {
         return (
             <div>
                 <Header />
-                <HomeForm />
-                {/* <Link to='/login'>Login</Link> */}
-                {/* <Link to='/area'>Area</Link> */}
-                <MapContainer
-                    google={this.props.google}
-                    center={{ lat: 40.729232, lng: -73.993083 }}
-                    height='300px'
-                    zoom={15}
-                />
-                <br></br>
-                <MapContainer
-                    google={this.props.google}
-                    center={{ lat: 40.729232, lng: -73.993083 }}
-                    height='300px'
-                    zoom={15}
-                />
+                <HomeForm submit={this.submit}/>
                 <Footer />
             </div>
         )
