@@ -41,7 +41,7 @@ Type `y` to continue.
   
   #### Testing Midpoint
 
-To test sprouts, navigate to Midpoint in the commandline
+To test Midpoint, navigate to Midpoint in the commandline
 
 Once in the midpoint-app folder
 
