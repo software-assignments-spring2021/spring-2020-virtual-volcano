@@ -3,33 +3,24 @@ import PropTypes from 'prop-types';
 import { Form, Button } from 'semantic-ui-react';
 import Validator from 'validator';
 import InlineError from "../messages/InlineError";
-
-import MapContainer from './MapContainer';
 import { Link } from "react-router-dom";
+import Geocode from "react-geocode";
+import axios from "axios";
 
-
-
-// function time() {
-//     alert("YAY! (time calculation TBD)");
-//     console.log("HURRRRAHHH");
-// };
-
-// function distance() {
-//     alert("YAY! (distance calculation TBD)");
-//     console.log("HURRRRAHHH");
-// };
-
-// function price() {
-//     alert("YAY! (price calculation TBD)");
-//     console.log("HURRRRAHHH");
-// };
+Geocode.setApiKey("MYAPIKEY");
+Geocode.enableDebug();
 
 class HomeForm extends React.Component {
-
+    
     state = {
         data: {
             userLocation: '',
-            otherLocation: ''
+            otherLocation: '',
+            lat1: '',
+            lng1: '',
+            lat2: '',
+            lng2: ''
+            
         },
         loading: false,
         errors: {}
@@ -58,8 +49,38 @@ class HomeForm extends React.Component {
     };
 
     render() {
+
         const { data, errors } = this.state;
 
+        Geocode.fromAddress(data.userLocation).then(
+            response => {
+            //   const { lat, lng } = response.results[0].geometry.location.lat();
+              const lat1 = response.results[0].geometry.location.lat;
+              const lng1 = response.results[0].geometry.location.lng;
+              console.log(lat1);
+              console.log(lng1);
+              data.lat1 = lat1;
+              data.lng1 = lng1;
+            },
+            error => {
+              console.error("NOOOO");
+            }
+        );
+
+        Geocode.fromAddress(data.otherLocation).then(
+            response => {
+              //const { lat, lng } = response.results[0].geometry.location;
+              const lat2 = response.results[0].geometry.location.lat;
+              const lng2 = response.results[0].geometry.location.lng;
+              console.log(lat2);
+              console.log(lng2);
+              data.lat2 = lat2;
+              data.lng2 = lng2;
+            },
+            error => {
+              console.error("NOOOO");
+            }
+        );
 
         return (
 
@@ -90,43 +111,16 @@ class HomeForm extends React.Component {
                     />
                     {errors.otherLocation && <InlineError text={errors.otherLocation} />}
                 </Form.Field>
-                <p>Calculate Midpoint By:</p>
-                <Link to='/area'><Button primary>Time</Button></Link>
+                <Button primary>Calculate Midpoint</Button>
+                {/* <p>Calculate Midpoint By:</p> */}
+                {/* <Link to='/area'><Button primary>Time</Button></Link>
                 <Link to='/area'><Button primary>Distance</Button></Link>
-                <Link to='/area'><Button primary>Price</Button></Link>
+                <Link to='/area'><Button primary>Price</Button></Link> */}
                 <p></p>
-
-
-                {/* TODO: when pages are deeplinked with map + calculation API, you can utilize these buttons
-                     but for now there are dependencies not allowing for it
-                     
-               <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    Select Radius
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-1">0.1 Miles</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">0.25 Miles</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">0.5 Miles</Dropdown.Item>
-                    </Dropdown.Menu>
-              </Dropdown
-            
-                
-             <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    Things to Do
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-1">Restaurants</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">Bars</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Shops</Dropdown.Item>
-                    </Dropdown.Menu>
-              </Dropdown
-            */}
             </Form>
+            
         );
+
     }
 }
 
