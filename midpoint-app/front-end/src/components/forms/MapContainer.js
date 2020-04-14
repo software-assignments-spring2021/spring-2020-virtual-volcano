@@ -91,40 +91,7 @@ class MapContainer extends React.Component {
             return true
         }
     }
-    componentDidUpdate(prevProps) {
-        console.log("here update!")
-        console.log(prevProps)
-        console.log(this.state)
-        Geocode.fromLatLng(prevProps.center.lat, prevProps.center.lng).then(
-            response => {
-                const address = response.results[0].formatted_address,
-                    addressArray = response.results[0].address_components,
-                    city = this.getCity(addressArray),
-                    area = this.getArea(addressArray),
-                    state = this.getState(addressArray);
 
-                console.log('city', city, area, state);
-                this.setState({
-                    address: (address) ? address : '',
-                    area: (area) ? area : '',
-                    city: (city) ? city : '',
-                    state: (state) ? state : '',
-                    markerPosition: {
-                        lat: prevProps.center.lat,
-                        lng: prevProps.center.lng
-                    },
-                    mapPosition: {
-                        lat: prevProps.center.lat,
-                        lng: prevProps.center.lng
-                    },
-
-                })
-            },
-            error => {
-                console.error(error);
-            }
-        )
-    }
 
     // componentDidUpdate(prevProps) {
     //     console.log(this.props.state.mapPosition.lat);
