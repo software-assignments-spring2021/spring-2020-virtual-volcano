@@ -11,9 +11,10 @@ describe("Check Lat/Lng", ()=>{
         chai
             .request(app)
             .post('/')
-            .send({your_data: {lat1: '40.4352', lng1: '-73.5945', lat2: '40.7275.', lng2: '-73.9890' }})
+            .send({your_data: {lat1: 40.4352, lng1: -73.5945, lat2: 40.7275 , lng2: -73.9890 }})
             .end((err, res) =>{
-                expect(res.body.response).to.be.a('float');
+                //expect(res).to.have.status(200);
+                expect(res.body.midpoint).to.be.a('float');
                 done();
             });
     });
