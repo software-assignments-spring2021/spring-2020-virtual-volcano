@@ -7,14 +7,26 @@ const {expect} = chai;
 chai.use(chaiHttp);
 
 describe("Check Lat/Lng", ()=>{
-    it("returns your_data object", done=>{
+    it("checks if midpoint lat is a number", done=>{
         chai
             .request(app)
             .post('/')
-            .send({your_data: {lat1: 40.4352, lng1: -73.5945, lat2: 40.7275 , lng2: -73.9890 }})
+            .send({lat1: 40.4352, lng1: -73.5945, lat2: 40.7275 , lng2: -73.9890 })
             .end((err, res) =>{
                 //expect(res).to.have.status(200);
-                expect(res.body.midpoint).to.be.a('float');
+                expect(res.body.lat).to.be.a('number');
+                done();
+            });
+    });
+
+    it("checks if midpoint lng is a number", done=>{
+        chai
+            .request(app)
+            .post('/')
+            .send({lat1: 40.4352, lng1: -73.5945, lat2: 40.7275 , lng2: -73.9890 })
+            .end((err, res) =>{
+                //expect(res).to.have.status(200);
+                expect(res.body.lng).to.be.a('number');
                 done();
             });
     });
