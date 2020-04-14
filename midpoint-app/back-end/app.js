@@ -111,21 +111,11 @@ function algorithm(data){
 // app.post("/login", (req, res) => {
 //     const email = req.body.email
 //     const password = req.body.password
-//     //const password = req.body.password
 //     console.log("Your email is ${email} and password is ${password}")
 //         // ... then send a response of some kind to client
 //         res.json(data);
+//      res.send("We got your data!");
 // });
-
-//   app.post("/post-example", (req, res) => {
-//     const name = req.body.your_name;
-//     const email = req.body.your_email;
-//     const agree = req.body.agree;
-//     // now do something amazing with this data...
-//     // ... then send a response of some kind
-//     //res.json(data)
-//     res.send("We got your data!");
-//   });
 
 // export the express app we created to make it available to other modules
 module.exports = app;

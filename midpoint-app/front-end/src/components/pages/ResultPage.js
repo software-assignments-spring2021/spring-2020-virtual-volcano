@@ -12,7 +12,7 @@ class ResultPage extends Component {
                 <ResultForm />
                 <MapContainer
                     google={this.props.google}
-                    center={{ lat: 18.5204, lng: 73.8567 }}
+                    center={{ lat: 40.720808, lng: -74.001145 }}
                     height='300px'
                     zoom={15}
                 />

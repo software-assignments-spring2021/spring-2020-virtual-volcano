@@ -18,11 +18,11 @@ function mapsSelector() {
 function ResultForm(props) {
 
     const resultOptions = [
-        {
-            key: 'Maps',
-            text: 'Maps',
-            value: 'Maps',
-        },
+        // {
+        //     key: 'Maps',
+        //     text: 'Maps',
+        //     value: 'Maps',
+        // },
         {
             key: 'Google Maps',
             text: 'Google Maps',
