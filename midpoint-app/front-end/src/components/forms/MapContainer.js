@@ -49,6 +49,8 @@ class MapContainer extends React.Component {
     }
 
     componentDidMount() {
+        console.log("here did mount")
+        console.log(this.state.mapPosition);
         Geocode.fromLatLng(this.state.mapPosition.lat, this.state.mapPosition.lng).then(
             response => {
                 const address = response.results[0].formatted_address,
@@ -63,6 +65,7 @@ class MapContainer extends React.Component {
                     area: (area) ? area : '',
                     city: (city) ? city : '',
                     state: (state) ? state : '',
+
                 })
             },
             error => {
@@ -77,13 +80,28 @@ class MapContainer extends React.Component {
             this.state.address !== nextState.address ||
             this.state.city !== nextState.city ||
             this.state.area !== nextState.area ||
-            this.state.state !== nextState.state
+            this.state.state !== nextState.state ||
+            this.state.mapPosition.lat !== nextState.mapPosition.lat
         ) {
             return true
         } else if (this.props.center.lat === nextProps.center.lat) {
             return false
+        } else {
+            console.log("UPDATE!!!")
+            return true
         }
     }
+
+
+    // componentDidUpdate(prevProps) {
+    //     console.log(this.props.state.mapPosition.lat);
+    //     // if (this.props.state.mapPosition.lat !== prevProps.state.mapPosition.lat) {
+    //     //     console.log('different!');
+    //     //     console.log(this.props.state.mapPosition.lat);
+    //     //     console.log(prevProps.state.mapPosition.lat);
+
+    //     // }
+    // }
 
     getCity = (addressArray) => {
         let city = '';
@@ -190,7 +208,7 @@ class MapContainer extends React.Component {
     }
 
     render() {
-
+        console.log("MApmadehere")
         const Autocompletion = withScriptjs(
             withGoogleMap(
                 props => (
@@ -222,7 +240,7 @@ class MapContainer extends React.Component {
 
                             <Marker google={this.props.google}
                                 name={'Dolores park'}
-                                draggable={true}
+                                draggable={false}
                                 onDragEnd={this.onMarkerDragEnd}
                                 position={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }}
                             />
