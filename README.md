@@ -17,7 +17,8 @@ Here is the link for our application prototype.(https://invis.io/98W6PSOF7GS#/40
 
 UPDATE: Curl for Users API `curl -H "X-API-Key: e161fca0" https://my.api.mockaroo.com/users.json` & for Locations API `curl -H "X-API-Key: e161fca0" https://my.api.mockaroo.com/calculations.json`
 
-  ### Running the project
+  ### Build and Test
+  ## Running Midpoint from the Commandline
 After cloning the project in your local repository, navigate to the folder through command line.  
   
 If you are in the midpoint-app folder, do as below to run the server.  
@@ -37,5 +38,21 @@ Then, do as below to run the front-end.
 A message might display due to duplicate localhost address.  
   
 Type `y` to continue.  
+  
+  ## Testing Midpoint
+
+To test sprouts, navigate to Midpoint in the commandline
+
+Once in the midpoint-app folder
+
+Navigate to the back end cd back-end
+
+Navigate to the test folder with ' $ cd test'
+
+Then run 'npm test test/test.js'
+
+
+
+
 
 
