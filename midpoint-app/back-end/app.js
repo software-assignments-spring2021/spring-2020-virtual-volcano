@@ -59,6 +59,18 @@ app.get("/area", (req, res) => {
     console.log(midpoint);
 });
 
+app.get("/result", (req, res) => {
+    console.log("Sending over the midpoint to the result page");
+    console.log(midpoint);
+    const data = {
+        status: 'success!',
+        message: 'congratulations receiving the midpoint!',
+        your_data: midpoint
+    }
+    console.log(data);
+    res.json(midpoint);
+});
+
 //the login page is posting but we are not receiving 
 app.post("/login", (req, res) => {
     const data = {
