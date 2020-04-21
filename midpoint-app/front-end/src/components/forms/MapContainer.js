@@ -4,10 +4,17 @@ import { GoogleMap, withGoogleMap, withScriptjs, InfoWindow, Marker } from "reac
 import Geocode from "react-geocode"
 import Autocomplete from 'react-google-autocomplete'
 import axios from 'axios'
+import dotenv from 'dotenv'
 
-Geocode.setApiKey("MYAPIKEY")
+dotenv.config();
+var myapikey = process.env.REACT_APP_APIKEY
+
+Geocode.setApiKey(myapikey)
 Geocode.enableDebug();
 
+console.log(myapikey)
+var mapurl = "https://maps.googleapis.com/maps/api/js?key=" + myapikey + "&libraries=places"
+console.log(mapurl)
 class MapContainer extends React.Component {
 
     constructor(props) {
@@ -242,7 +249,6 @@ class MapContainer extends React.Component {
     }
 
     render() {
-        console.log("MApmadehere")
         const Autocompletion = withScriptjs(
             withGoogleMap(
                 props => (
@@ -347,7 +353,7 @@ class MapContainer extends React.Component {
                 </div>
 
                 <AsyncMap
-                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=MYAPIKEY&libraries=places"
+                    googleMapURL={mapurl}
                     loadingElement={
                         <div style={{ height: '100%' }} />
                     }
