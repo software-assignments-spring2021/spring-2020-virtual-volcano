@@ -7,19 +7,18 @@ const axios = require("axios");
 //const cors = require("cors");
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(function(req, res, next) {
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3001");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
-  });
+});
 // app.use(express.urlencoded({ extended: false }));
 
 //include at least one route
 app.get("/", (req, res) => {
-    res.send("Hello!");
-    //res.render('index', {});
-  });
+    res.render('index', {});
+});
 
 //receive POST data from the client in homepage - first address and second address -- 
 //receive lat and long 1/2 from homeform or string adresses from homeform 
@@ -31,6 +30,8 @@ let midpoint = {
     lng: 0
 };
 
+
+
 //work with longitude and lat
 app.post('/', (req, res) => {
     const your_data = {
@@ -39,13 +40,13 @@ app.post('/', (req, res) => {
         lat2: req.body.lat2,
         lng2: req.body.lng2
     }
-   const response = algorithm(your_data);
-   midpoint.lat = response.lat;
-   midpoint.lng = response.lng;
+    const response = algorithm(your_data);
+    midpoint.lat = response.lat;
+    midpoint.lng = response.lng;
     console.log(req.body);
     console.log(your_data);
     console.log(response);
-    console.log("Your midpoint is located at lat: " +midpoint.lat+" and lng: "+midpoint.lng+".");
+    console.log("Your midpoint is located at lat: " + midpoint.lat + " and lng: " + midpoint.lng + ".");
     // ... then send a response of some kind to client
     res.json(response);
 });
@@ -85,17 +86,17 @@ app.post("/login", (req, res) => {
     // ... then send a response of some kind to client
     res.json(data);
     res.sendStatus(200);
-  });
+});
 
 //function algorithm(lat1, lng1, lat2, lng2){
-function algorithm(data){
+function algorithm(data) {
     //should I return in json format or an array
     let lat1 = parseFloat(data.lat1);
     let lng1 = parseFloat(data.lng1);
     let lat2 = parseFloat(data.lat2);
     let lng2 = parseFloat(data.lng2);
-    let lat3 = (lat1+lat2)/2;
-    let lng3 = (lng1+lng2)/2;
+    let lat3 = (lat1 + lat2) / 2;
+    let lng3 = (lng1 + lng2) / 2;
     const responseData = {
         status: "success!",
         message: "sending us data, now performing calculation",

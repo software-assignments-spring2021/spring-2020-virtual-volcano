@@ -26,6 +26,7 @@ class ResultPage extends Component {
             .then((response) => {
                 console.log("These are the coordinates");
                 console.log(response);
+
                 this.setState({ data: response.data })
                 console.log(this.state.data);
                 console.log(typeof (parseFloat(this.state.data.lat)));
