@@ -68,9 +68,9 @@ class AccountForm extends React.Component {
 
                 <p>Saved Locations:</p>
 
-                // Need to left justify buttons
-                <button onClick={this.add}>Add Location</button>
-                <button onClick={this.remove}>Delete Location</button>
+                <button onClick={this.add} style={{float: 'left'}}>Add Location </button>
+                <button onClick={this.remove}  style={{float: 'left'}} >Delete Location</button>
+
 
 
                 <p></p>
