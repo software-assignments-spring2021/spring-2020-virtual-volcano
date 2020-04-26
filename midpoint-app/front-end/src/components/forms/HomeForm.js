@@ -6,9 +6,14 @@ import InlineError from "../messages/InlineError";
 import { Link } from "react-router-dom";
 import Geocode from "react-geocode";
 import axios from "axios";
+import dotenv from "dotenv"
 
-Geocode.setApiKey("MYAPIKEY");
+dotenv.config();
+var myapikey = JSON.stringify(process.env.REACT_APP_APIKEY)
+
+Geocode.setApiKey(myapikey)
 Geocode.enableDebug();
+
 
 class HomeForm extends React.Component {
 

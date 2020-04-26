@@ -4,10 +4,17 @@ import { GoogleMap, withGoogleMap, withScriptjs, InfoWindow, Marker } from "reac
 import Geocode from "react-geocode"
 import Autocomplete from 'react-google-autocomplete'
 import axios from 'axios'
+import dotenv from 'dotenv'
 
-Geocode.setApiKey("MYAPIKEY")
+dotenv.config();
+var myapikey = process.env.REACT_APP_APIKEY
+
+Geocode.setApiKey(myapikey)
 Geocode.enableDebug();
 
+console.log(myapikey)
+var mapurl = "https://maps.googleapis.com/maps/api/js?key=" + myapikey + "&libraries=places"
+console.log(mapurl)
 class MapContainer extends React.Component {
 
     constructor(props) {
@@ -92,6 +99,40 @@ class MapContainer extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        console.log("here update!")
+        console.log(prevProps)
+        console.log(this.state)
+        Geocode.fromLatLng(prevProps.center.lat, prevProps.center.lng).then(
+            response => {
+                const address = response.results[0].formatted_address,
+                    addressArray = response.results[0].address_components,
+                    city = this.getCity(addressArray),
+                    area = this.getArea(addressArray),
+                    state = this.getState(addressArray);
+
+                console.log('city', city, area, state);
+                this.setState({
+                    address: (address) ? address : '',
+                    area: (area) ? area : '',
+                    city: (city) ? city : '',
+                    state: (state) ? state : '',
+                    markerPosition: {
+                        lat: prevProps.center.lat,
+                        lng: prevProps.center.lng
+                    },
+                    mapPosition: {
+                        lat: prevProps.center.lat,
+                        lng: prevProps.center.lng
+                    },
+
+                })
+            },
+            error => {
+                console.error(error);
+            }
+        )
+    }
 
     // componentDidUpdate(prevProps) {
     //     console.log(this.props.state.mapPosition.lat);
@@ -208,7 +249,6 @@ class MapContainer extends React.Component {
     }
 
     render() {
-        console.log("MApmadehere")
         const Autocompletion = withScriptjs(
             withGoogleMap(
                 props => (
@@ -265,7 +305,7 @@ class MapContainer extends React.Component {
         if (this.props.center.lat !== undefined) {
             map = <div>
                 {/* <Autocompletion
-                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw9LvtDJ_MXyFP2hS-tG_GqlfECOnY-QIY&libraries=places"
+                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=MYAPIKEY&libraries=places"
                     loadingElement={
                         <div style={{ height: '0px' }} />
                     }
@@ -313,7 +353,7 @@ class MapContainer extends React.Component {
                 </div>
 
                 <AsyncMap
-                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=MYAPIKEY&libraries=places"
+                    googleMapURL={mapurl}
                     loadingElement={
                         <div style={{ height: '100%' }} />
                     }
