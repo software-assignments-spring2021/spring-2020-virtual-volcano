@@ -6,6 +6,10 @@ const bodyParser = require('body-parser');
 const axios = require("axios");
 //const cors = require("cors");
 
+
+const port = process.env.PORT;
+require('./db.js')
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(function (req, res, next) {
