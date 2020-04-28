@@ -21,7 +21,8 @@ class HomePage extends Component {
                 console.log("Error posting");
                 console.log(error);
             });
-        this.props.history.push('/result');
+        //this.props.history.push('/result');
+        this.props.history.push('/area');
     }
 
     render() {
