@@ -70,10 +70,15 @@ function AreaForm(props) {
       <p></p>
         <h3>Browse Midpoint Area on the map:</h3>
       <p></p>
-      <Link to='/result'><Button primary>Midpoint Chosen!</Button></Link>
+      {/* <Link to='/result'><Button primary>Midpoint Chosen!</Button></Link> */}
+      <Button primary>Midpoint Chosen!</Button>
     </Form>
   )
 }
+
+AreaForm.propTypes = {
+  submit: PropTypes.func.isRequired
+};
 
 export default AreaForm;
 

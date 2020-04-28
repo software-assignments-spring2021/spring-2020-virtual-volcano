@@ -64,6 +64,18 @@ app.get("/area", (req, res) => {
     console.log(midpoint);
 });
 
+app.get("/area", (req, res) => {
+    console.log("Sending over the calculated midpoint to the area page");
+    console.log(midpoint);
+    const data = {
+        status: 'success!',
+        message: 'congratulations receiving the midpoint!',
+        your_data: midpoint
+    }
+    console.log(data);
+    res.json(midpoint);
+});
+
 app.get("/result", (req, res) => {
     console.log("Sending over the midpoint to the result page");
     console.log(midpoint);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import { GoogleMap, LoadScript, StandaloneSearchBox, Marker, InfoWindow } from '@react-google-maps/api'
-import { GoogleMap, withGoogleMap, withScriptjs, InfoWindow, Marker } from "react-google-maps"
+import { GoogleMap, withGoogleMap, withScriptjs, InfoWindow, Marker, Circle } from "react-google-maps"
 import Geocode from "react-geocode"
 import Autocomplete from 'react-google-autocomplete'
 import axios from 'axios'
@@ -31,7 +31,8 @@ class MapContainer extends React.Component {
             markerPosition: {
                 lat: this.props.center.lat,
                 lng: this.props.center.lng
-            }
+            },
+            radius: this.props.radius
         }
 
     }
@@ -276,7 +277,8 @@ class MapContainer extends React.Component {
                         <GoogleMap google={this.props.google}
                             defaultZoom={this.props.zoom}
                             defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
-                        >
+                            // service = {this.places.PlacesService(map)}
+                        >   
 
                             <Marker google={this.props.google}
                                 name={'Dolores park'}
@@ -294,6 +296,12 @@ class MapContainer extends React.Component {
                                     <span style={{ padding: 0, margin: 0 }}>{this.state.address}</span>
                                 </div>
                             </InfoWindow>
+
+                            <Circle google={this.props.google} 
+                            center={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
+                            radius={this.state.radius} //0.1 miles = 161 meters
+                            >
+                            </Circle>
 
                         </GoogleMap>
                     </React.Fragment>

@@ -30,7 +30,6 @@ function ResultForm(props) {
             console.log(response.data)
         });
     }, []);
-
     const resultOptions = [
         // {
         //     key: 'Maps',
