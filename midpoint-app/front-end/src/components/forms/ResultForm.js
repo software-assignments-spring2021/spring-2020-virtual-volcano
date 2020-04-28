@@ -26,11 +26,11 @@ function ResultForm(props) {
     const [data, setData] = useState([]);
     let midpoint_name = '';
     useEffect(() => {
-        axios.get('http://localhost:3000/name').then(function (response) {
+        axios.get('http://localhost:3000/result').then(function (response) {
             setData(response.data);
             console.log("this is name response data");
             console.log(response.data);
-            midpoint_name = response.data
+            // midpoint_name = response.data
 
         });
     }, []);
