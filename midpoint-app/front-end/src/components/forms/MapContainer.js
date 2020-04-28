@@ -6,7 +6,7 @@ import Autocomplete from 'react-google-autocomplete'
 import axios from 'axios'
 import dotenv from 'dotenv'
 
-dotenv.config();
+dotenv.config({ path: '../../.env' });
 var myapikey = process.env.REACT_APP_APIKEY
 
 Geocode.setApiKey(myapikey)
@@ -342,7 +342,7 @@ class MapContainer extends React.Component {
                         <input type="text" name="state" className="form-control"
                             onChange={this.onChange} readOnly="readOnly" value={this.state.state} />
                     </div> */}
-                    <div className="form-group">
+                    {/* <div className="form-group">
                         <label htmlFor="">Address</label>
                         <input type="text" name="address" className="form-control"
                             onChange={this.onChange} readOnly="readOnly" value={this.state.address} style={{ width: '100%' }} />
@@ -356,7 +356,7 @@ class MapContainer extends React.Component {
                         <label htmlFor="">Lng</label>
                         <input type="text" name="lng" className="form-control"
                             onChange={this.onChange} readOnly="readOnly" value={this.state.mapPosition.lng} style={{ width: '100%' }} />
-                    </div>
+                    </div> */}
                     <br></br>
                 </div>
 

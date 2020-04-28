@@ -8,8 +8,8 @@ import Geocode from "react-geocode";
 import axios from "axios";
 import dotenv from "dotenv"
 
-dotenv.config();
-var myapikey = JSON.stringify(process.env.REACT_APP_APIKEY)
+dotenv.config({ path: '../../.env' });
+var myapikey = process.env.REACT_APP_APIKEY
 
 Geocode.setApiKey(myapikey)
 Geocode.enableDebug();

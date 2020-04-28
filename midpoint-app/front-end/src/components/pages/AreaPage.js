@@ -8,13 +8,15 @@ import axios from 'axios';
 import ReactDOM from "react-dom";
 import dotenv from "dotenv"
 import Map from '../forms/Map'
+// import axios from 'axios'
 
 dotenv.config();
 var myapikey = process.env.REACT_APP_APIKEY
 let url = "https://maps.googleapis.com/maps/api/js?key=" + myapikey + "&libraries=places"
+console.log(myapikey)
 
 class AreaPage extends Component {
-    _isMounted = false;
+    // _isMounted = false;
 
     constructor(props) {
         super(props);
@@ -28,8 +30,8 @@ class AreaPage extends Component {
 
     //   get the calculated midpoint coordinates
     componentDidMount() {
-        this._isMounted = true;
-        if (this._isMounted) {
+        // this._isMounted = true;
+        // if (this._isMounted) {
         axios.get("http://localhost:3000/area")
             .then((response) => {
                 console.log("These are the coordinates");
@@ -41,24 +43,31 @@ class AreaPage extends Component {
             .catch((error) => {
                 console.log(error);
             });
-        }
+        // }
     }
-    componentWillUnmount() {
-        this._isMounted = false;
-      }
+    // componentWillUnmount() {
+    //     this._isMounted = false;
+    //   }
 
     render() {
+        // <>
+        // <Header />
+        // <AreaForm />
+        // </>
+        console.log("This is the center being sent form area page")
+        console.log(this.state.data)
         return (
             <div>
                 <Header />
                 <AreaForm />
                 <Map
-                    googleMapURL={url}
-                    loadingElement={<div style={{ height: `100%` }} />}
-                    containerElement={<div style={{ height: `400px` }} />}
-                    mapElement={<div style={{ height: `100%` }} />}
-                    center={{ lat: this.state.data.lat, lng: this.state.data.lng }}
+                    // center={{ lat: this.state.data.lat, lng: this.state.data.lng }}
                     zoom={14}
+                    googleMapURL={url}
+                    google={this.props.google}
+                    loadingElement={<div style={{ height: `100%` }} />}
+                    containerElement={<div style={{ height: `500px` }} />}
+                    mapElement={<div style={{ height: `100%` }} />}
                  />
                  <Footer/>
             </div>

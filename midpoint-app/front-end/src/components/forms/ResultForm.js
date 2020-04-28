@@ -24,10 +24,14 @@ function mapsSelector(lat, lng) {
 function ResultForm(props) {
     //get midpoint
     const [data, setData] = useState([]);
+    let midpoint_name = '';
     useEffect(() => {
-        axios.get('http://localhost:3000/result').then(function (response) {
+        axios.get('http://localhost:3000/name').then(function (response) {
             setData(response.data);
-            console.log(response.data)
+            console.log("this is name response data");
+            console.log(response.data);
+            midpoint_name = response.data
+
         });
     }, []);
     const resultOptions = [
@@ -43,6 +47,7 @@ function ResultForm(props) {
         }
     ]
 
+   
     return (
         <Form className="location-box">
             {/* <h3>Estimated Journey to your destination</h3>
@@ -53,7 +58,8 @@ function ResultForm(props) {
             </ButtonGroup>
             <p></p> */}
 
-            <h3>Get Directions:</h3>
+            {/* <h3>Your Midpoint is: { midpoint_name }</h3> */}
+            <p>Get Directions:</p>
             <Dropdown className='dropdown'
                 placeholder="Select Option"
                 fluid

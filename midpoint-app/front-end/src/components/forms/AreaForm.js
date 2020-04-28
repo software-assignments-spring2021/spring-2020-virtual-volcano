@@ -1,13 +1,29 @@
-import React from 'react';
+// import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button, Dropdown} from 'semantic-ui-react';
 // import Dropdown from 'react-dropdown';
 import { Link } from "react-router-dom";
 
 import MapContainer from './MapContainer';
+import axios from 'axios';
+
 
 
 function AreaForm(props) {
+      // //get midpoint
+      // const [data, setData] = useState([]);
+      // useEffect(() => {
+      //     axios.get('http://localhost:3000/result').then(function (response) {
+      //         setData(response.data);
+      //         console.log(response.data)
+      //     });
+      // }, []);
+
+      // function onSubmit = (props) => {
+      //   this.props.submit(props.data);
+      // }; 
+
   const radiusOptions = [
     // '0.1 Miles', '0.25 Miles', '0.5 Miles'
     {
@@ -48,10 +64,9 @@ function AreaForm(props) {
 
   return (
     <Form className="location-box">
-      <h3>Calculate Midpoint Area By:</h3>
+      {/* <h3>Calculate Midpoint Area By:</h3> */}
       {/* Implement title and dropdown buttons to select radius and things to do  */}
-      {/* <Dropdown options={radiusOptions} placeholder="Select Radius" /> */}
-      <Dropdown className='dropdown'
+      {/* <Dropdown className='dropdown'
         placeholder = "Select Radius"
         fluid
         selection
@@ -59,7 +74,6 @@ function AreaForm(props) {
         style={{ width: "25%",left: "50%", right: "auto", transform: "translate(-50%,0)"}}
       />
       <p></p>
-      {/* <Dropdown options={thingsOptions} placeholder="Things to Do" /> */}
       <Dropdown className='dropdown'
         placeholder = "Things To Do"
         fluid
@@ -67,11 +81,11 @@ function AreaForm(props) {
         options={thingsOptions}
         style={{ width: "25%",left: "50%", right: "auto", transform: "translate(-50%,0)"}}
       />
-      <p></p>
+      <p></p> */}
         <h3>Browse Midpoint Area on the map:</h3>
       <p></p>
-      {/* <Link to='/result'><Button primary>Midpoint Chosen!</Button></Link> */}
-      <Button primary>Midpoint Chosen!</Button>
+      <Link to='/result'><Button primary>Midpoint Chosen!</Button></Link>
+      {/* <Button primary>Midpoint Chosen!</Button> */}
     </Form>
   )
 }

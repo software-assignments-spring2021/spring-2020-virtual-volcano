@@ -23,7 +23,6 @@ class HomePage extends Component {
             });
         //this.props.history.push('/result');
         this.props.history.push('/area');
-
     }
 
     render() {
