@@ -29,12 +29,7 @@ class ResultPage extends Component {
                 this.setState({ data: response.data })
                 console.log(this.state.data);
                 console.log(typeof (parseFloat(this.state.data.lat)));
-                //console.log(this.state.data.lat);
-                //console.log(this.state.data.lng);
-                //var lat = this.state.data.lat;
-                //var lng = this.state.data.lng;
-                // console.log(lat);
-                // console.log(lng);
+                console.log("is this working")
             })
             .catch((error) => {
                 console.log(error);
@@ -60,7 +55,6 @@ class ResultPage extends Component {
                 <ResultForm />
                 <MapContainer
                     google={this.props.google}
-                    //center={{ lat: 40.9039889, lng: -73.9261412 }}
                     center={{ lat: this.state.data.lat, lng: this.state.data.lng }}
                     height='450px'
                     zoom={15}
