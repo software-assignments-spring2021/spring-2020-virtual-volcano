@@ -16,7 +16,6 @@ let url = "https://maps.googleapis.com/maps/api/js?key=" + myapikey + "&librarie
 console.log(myapikey)
 
 class AreaPage extends Component {
-    // _isMounted = false;
 
     constructor(props) {
         super(props);
@@ -28,10 +27,7 @@ class AreaPage extends Component {
         }
     }
 
-    //   get the calculated midpoint coordinates
     componentDidMount() {
-        // this._isMounted = true;
-        // if (this._isMounted) {
         axios.get("http://localhost:3000/area")
             .then((response) => {
                 console.log("These are the coordinates");
@@ -43,17 +39,10 @@ class AreaPage extends Component {
             .catch((error) => {
                 console.log(error);
             });
-        // }
     }
-    // componentWillUnmount() {
-    //     this._isMounted = false;
-    //   }
 
     render() {
-        // <>
-        // <Header />
-        // <AreaForm />
-        // </>
+        console.log("rendering is this working")
         console.log("This is the center being sent form area page")
         console.log(this.state.data)
         return (
@@ -61,7 +50,6 @@ class AreaPage extends Component {
                 <Header />
                 <AreaForm />
                 <Map
-                    // center={{ lat: this.state.data.lat, lng: this.state.data.lng }}
                     zoom={14}
                     googleMapURL={url}
                     google={this.props.google}
@@ -71,24 +59,6 @@ class AreaPage extends Component {
                  />
                  <Footer/>
             </div>
-            // <div>
-            //     <Header />
-            //     <AreaForm />
-            //     {/* Link to final calculated midpoint page instead of login */}
-            //     {/* <Link to='/login'>Login</Link> */}
-            //     <MapContainer
-            //         google={this.props.google}
-            //         //center={{ lat: 18.5204, lng: 73.8567 }}
-            //         center={{ lat: this.state.data.lat, lng: this.state.data.lng }}
-            //         height='300px'
-            //         zoom={15}
-            //         //drop down in area form needs to choose this value
-            //         //radius={161} //.1 mile
-            //         // radius={402} //.25 mile
-            //         //radius={804} //.5 mile
-            //     />
-            //     <Footer />
-            // </div>
         )
     }
 }
