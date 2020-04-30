@@ -4,20 +4,185 @@ const app = express(); // instantiate an Express object
 // we will put some server logic here later...
 const bodyParser = require('body-parser');
 const axios = require("axios");
-//const cors = require("cors");
+var http = require('http');
+const mongoose = require('mongoose');
+const cors = require("cors");
 
+app.use(cors());
 
 const port = process.env.PORT;
-require('./db.js')
+// require('./db.js')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3001");
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000/signup");
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000/login");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
 // app.use(express.urlencoded({ extended: false }));
+
+
+var database;
+
+function connectDB() {
+    var databaseURL = 'mongodb://localhost:27017/user'
+
+    mongoose.Promise = global.Promise;
+    mongoose.connect(databaseURL)
+
+    database = mongoose.connection;
+    database.on('open',
+        function () {
+            console.log('data base connected at' + databaseURL);
+
+            userSchema = mongoose.Schema({
+                id: {
+                    type: String,
+                    required: true
+                },
+                password: {
+                    type: String,
+                    required: true
+                },
+                name: {
+                    type: String,
+                    required: true
+                }
+            });
+            console.log("userSchema defined");
+
+            userModel = mongoose.model('users', userSchema);
+            console.log('userModel defined')
+        }
+    );
+
+    database.on('disconnected',
+        function () {
+            console.log("data base disconnected")
+        }
+    );
+
+    database.on('error',
+        console.error.bind(console, 'moongose connection error')
+    )
+}
+
+var authUser = function (db, id, password, callback) {
+    var users = db.db('user').collection('user');
+    var result = users.find({ "name": id, "password": password },
+        function (err, docs) {
+            if (err) {
+                callback(err, null);
+                return;
+            }
+            if (docs.length > 0) {
+                console.log('find user [' + docs + ']');
+                callback(null, docs);
+            }
+            else {
+                console.log('cannot find')
+                callback(null, null)
+            }
+        }
+    );
+};
+
+var appServer = http.createServer(app);
+appServer.listen(app.get('port'),
+    function () {
+        connectDB();
+    }
+)
+
+var router = express.Router();
+
+router.route('/login').post(
+    function (req, res) {
+        console("in route login")
+        if (database) {
+            authUser(database, paramID, paramPW,
+                function (err, docs) {
+                    if (databse) {
+                        if (err) {
+                            console.log('error')
+                            res.end();
+                            return;
+                        }
+                        if (docs) {
+                            console.dir(docs);
+                            res.write('<h1>Logged</h1>')
+                            res.end();
+                        }
+                        else {
+                            res.write('<h1>no data</h1>')
+                        }
+                    }
+                }
+            )
+        }
+    }
+);
+
+router.route('/signup').post(
+    function (req, res) {
+        console.log("in route signup");
+        var paramEmail = req.body.email || req.query.email;
+        var paramPW = req.body.password || req.query.password;
+        var paramName = req.body.name || req.query.name;
+        console.log('ID : ' + paramEmail + "PW : " + paramPW);
+
+        if (database) {
+            signup(database, paramEmail, paramPW, paramName,
+                function (err, result) {
+                    if (err) {
+                        console.log('error')
+                        res.end();
+                        return;
+                    }
+                    if (result) {
+                        console.dir(result);
+                        res.write('<h1> name </h1>' + paramName)
+                        res.end();
+                    }
+                    else {
+                        console.log('error2')
+                        res.end();
+                    }
+                }
+            )
+        }
+        else {
+            console.log('DB not connected')
+            res.end();
+        }
+    }
+)
+app.use('/', router);
+
+var signup = function (db, id, password, name, callback) {
+    console.log("signing up" + id)
+    var users = new userModel({ "id": id, "password": password, "name": name })
+
+    users.save(
+        function (err) {
+            if (err) {
+                callback(err, null);
+                return;
+            }
+            console.log('user added');
+            console.log(users)
+            console.log("this is before callback")
+            callback(null, users);
+        }
+    )
+}
+
+// connectDB();
+// var random_instance = new userModel({ email: 'dasd@dasnd.com', password: 'dasd', name: 'dasdd' })
+
 
 //include at least one route
 app.get("/", (req, res) => {
@@ -83,7 +248,7 @@ app.post('/area', (req, res) => {
     console.log(your_data);
     console.log(response);
     console.log("Your midpoint place is located at lat: " + midpointPlace.lat + " and lng: " + midpointPlace.lng + ".");
-    console.log("The name of your chosen place is "+ midpointName);
+    console.log("The name of your chosen place is " + midpointName);
     // ... then send a response of some kind to client
     res.json(response);
 });

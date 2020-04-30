@@ -8,6 +8,7 @@ import LoginPage from './components/pages/LoginPage';
 import AccountPage from './components/pages/AccountPage';
 import AreaPage from './components/pages/AreaPage';
 import ResultPage from './components/pages/ResultPage';
+import SignupPage from './components/pages/SignupPage';
 
 
 const App = () => (
@@ -19,6 +20,7 @@ const App = () => (
     <Route path="/account" exact component={AccountPage} />
     <Route path="/area" exact component={AreaPage} />
     <Route path="/result" exact component={ResultPage} />
+    <Route path="/signup" exact component={SignupPage} />
   </div>
 );
 

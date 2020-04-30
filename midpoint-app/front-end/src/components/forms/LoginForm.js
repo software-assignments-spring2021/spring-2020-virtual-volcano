@@ -6,7 +6,7 @@ import InlineError from "../messages/InlineError";
 import { Link } from "react-router-dom";
 import { useHistory } from 'react-router-dom';
 import HomePage from "../pages/HomePage"
-import {withRouter, BrowserRouter } from 'react-router-dom';
+import { withRouter, BrowserRouter } from 'react-router-dom';
 
 class LoginForm extends React.Component {
 
@@ -19,10 +19,10 @@ class LoginForm extends React.Component {
         errors: {}
     };
 
-    onChange = e => 
-        this.setState({ 
-            data: { ...this.state.data, [e.target.name]: e.target.value}
-    });
+    onChange = e =>
+        this.setState({
+            data: { ...this.state.data, [e.target.name]: e.target.value }
+        });
 
     onSubmit = () => {
         const errors = this.validate(this.state.data);
@@ -33,11 +33,15 @@ class LoginForm extends React.Component {
         }
     };
 
+    handleAlternate(event) {
+        this.props.handleAlternate();
+    }
+
     // validate data after hitting submit form 
     validate = (data) => {
         // errors object should be empty if validation is OK & pass data further
         const errors = {};
-        if(!Validator.isEmail(data.email)) errors.email = "Error";
+        if (!Validator.isEmail(data.email)) errors.email = "Error";
         if (!data.password) errors.password = "Error";
         return errors;
     }
@@ -45,19 +49,19 @@ class LoginForm extends React.Component {
     render() {
         const { data, errors } = this.state;
         return (
-            <Grid textAlign='center' style={{height:'90vh'}} verticalAlign='middle'>
-                <Grid.Column style={{maxWidth: 500}}>
+            <Grid textAlign='center' style={{ height: '90vh' }} verticalAlign='middle'>
+                <Grid.Column style={{ maxWidth: 500 }}>
                     <Form onSubmit={this.onSubmit} size='large'>
                         <Segment stacked>
-                            <h1 style={{color:'teal'}}>Login to Your Account</h1>
+                            <h1 style={{ color: 'teal' }}>Login to Your Account</h1>
                             <Form.Input error={!!errors.email}>
                                 <input
                                     icon='user'
                                     iconPosition='left'
-                                    type="email" 
-                                    id="email" 
-                                    name="email" 
-                                    placeholder="example@example.com" 
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="example@example.com"
                                     value={data.email}
                                     onChange={this.onChange}
                                 />
@@ -67,16 +71,17 @@ class LoginForm extends React.Component {
                                 <input
                                     icon='lock'
                                     iconPosition='left'
-                                    type="password" 
-                                    id="password" 
-                                    name="password" 
-                                    placeholder="Password" 
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    placeholder="Password"
                                     value={data.password}
                                     onChange={this.onChange}
                                 />
                                 {/* {errors.password && <InlineError text={errors.password} />} */}
                             </Form.Input>
-                            <Button color='teal' fluid size='large'>Login</Button>
+                            <Button color='teal' fluid size='large' style={{ width: '49%', display: 'inline-block' }}>Login</Button>
+                            <Button color='teal' fluid size='large' onClick={this.handleAlternate.bind(this)} style={{ width: '49%', display: 'inline-block' }}>Signup</Button>
                         </Segment>
                     </Form>
                 </Grid.Column>
@@ -84,7 +89,7 @@ class LoginForm extends React.Component {
 
             // <Grid textAlign='center' style={{ height: '90vh' }} verticalAlign='middle'>
             //     <Grid.Column style={{maxWidth: 500}}>
-                    
+
             //         <Form size='large' onSubmit={this.onSubmit}>
             //             <Segment stacked>
             //                 <h1 style={{color:"teal"}}>
@@ -119,7 +124,7 @@ class LoginForm extends React.Component {
             //                     icon='lock' 
             //                     iconPosition='left' 
             //                     placeholder ='Password' 
-                                
+
             //                     value={data.password} 
             //                     onChange={this.onChange}/>
             //                 {errors.password && <InlineError text={errors.password} />}
