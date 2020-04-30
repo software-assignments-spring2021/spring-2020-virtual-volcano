@@ -12,7 +12,7 @@ class HomePage extends Component {
 
     submit = (data) => {
         console.log(data);
-        //   //try to post request
+        console.log("axios post")
         axios.post('http://localhost:3000/', data)
             .then(function (response) {
                 console.log("Success posting the all coordinates");
@@ -21,7 +21,7 @@ class HomePage extends Component {
                 console.log("Error posting");
                 console.log(error);
             });
-        this.props.history.push('/result');
+        this.props.history.push('/area');
     }
 
     render() {

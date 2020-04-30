@@ -22,21 +22,19 @@ function mapsSelector(lat, lng) {
 }
 
 function ResultForm(props) {
-    //get midpoint
+    console.log("beginning of result form");
     const [data, setData] = useState([]);
+    let midpoint_name = '';
     useEffect(() => {
         axios.get('http://localhost:3000/result').then(function (response) {
             setData(response.data);
-            console.log(response.data)
+            console.log("this is name response data");
+            console.log(response.data);
+            // midpoint_name = response.data
+
         });
     }, []);
-
     const resultOptions = [
-        // {
-        //     key: 'Maps',
-        //     text: 'Maps',
-        //     value: 'Maps',
-        // },
         {
             key: 'Google Maps',
             text: 'Google Maps',
@@ -44,17 +42,11 @@ function ResultForm(props) {
         }
     ]
 
+   
     return (
         <Form className="location-box">
-            {/* <h3>Estimated Journey to your destination</h3>
-            <ButtonGroup aria-label="Basic example">
-                <Button variant="primary">15 minutes</Button>
-                <Button variant="primary">0.7 miles</Button>
-                <Button variant="primary">$2.75</Button>
-            </ButtonGroup>
-            <p></p> */}
-
-            <h3>Get Directions:</h3>
+  
+            <p>Get Directions:</p>
             <Dropdown className='dropdown'
                 placeholder="Select Option"
                 fluid
@@ -65,7 +57,6 @@ function ResultForm(props) {
             <Button
                 animated style={{ float: "right", marginRight: "35%", position: "fixed" }}
                 onClick={() => { mapsSelector(data.lat, data.lng) }}
-            //            onClick={()=>{mapsSelector()}}
             >
                 <Button.Content visible>Go</Button.Content>
                 <Button.Content hidden>

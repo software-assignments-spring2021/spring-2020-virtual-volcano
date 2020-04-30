@@ -13,11 +13,10 @@ class ResultPage extends Component {
             data: {
                 lat: 35.9039889,
                 lng: -70.9261412,
-            }
-            //data: [],
+                
+            },
+            name: 'place holder'
         }
-
-
     }
 
     //   get the final midpoint location
@@ -30,16 +29,20 @@ class ResultPage extends Component {
                 this.setState({ data: response.data })
                 console.log(this.state.data);
                 console.log(typeof (parseFloat(this.state.data.lat)));
-                //console.log(this.state.data.lat);
-                //console.log(this.state.data.lng);
-                //var lat = this.state.data.lat;
-                //var lng = this.state.data.lng;
-                // console.log(lat);
-                // console.log(lng);
+                console.log("is this working")
             })
             .catch((error) => {
                 console.log(error);
             });
+        axios.get("http://localhost:3000/name")
+        .then((response) => {
+            console.log("This is the midpoint name");
+            console.log(response);
+            this.setState({ name: response.data })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
 
 
@@ -48,12 +51,12 @@ class ResultPage extends Component {
         return (
             <div>
                 <Header />
+                <h3 style = {{textAlign: "center"}}>Your Midpoint is: {this.state.name}</h3>
                 <ResultForm />
                 <MapContainer
                     google={this.props.google}
-                    //center={{ lat: 40.9039889, lng: -73.9261412 }}
                     center={{ lat: this.state.data.lat, lng: this.state.data.lng }}
-                    height='300px'
+                    height='450px'
                     zoom={15}
                 />
                 <Footer />

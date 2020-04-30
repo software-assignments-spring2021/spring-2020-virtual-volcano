@@ -34,7 +34,14 @@ let midpoint = {
     lng: 0
 };
 
+let midpointPlace = {
+    lat: 0,
+    lng: 0
+};
 
+let midpointName = {
+    name: 'place holder'
+};
 
 //work with longitude and lat
 app.post('/', (req, res) => {
@@ -55,25 +62,71 @@ app.post('/', (req, res) => {
     res.json(response);
 });
 
-//get calculated midpoint
-//may get undefined error if this is run before POST '/'
-//POST sets this value
-app.get("/area", (req, res) => {
-    res.json(midpoint);
-    console.log(res.data);
-    console.log(midpoint);
+
+app.post('/area', (req, res) => {
+    const your_data = {
+        latM: req.body.coords.lat,
+        lngM: req.body.coords.lng,
+        name: req.body.name
+    }
+    const response = {
+        status: "success!",
+        message: "sending us chosen midpoint and name, now storing",
+        lat: parseFloat(your_data.latM),
+        lng: parseFloat(your_data.lngM),
+        name: JSON.stringify(your_data.name)
+    };
+    midpointPlace.lat = response.lat;
+    midpointPlace.lng = response.lng;
+    midpointName = response.name;
+    console.log(req.body);
+    console.log(your_data);
+    console.log(response);
+    console.log("Your midpoint place is located at lat: " + midpointPlace.lat + " and lng: " + midpointPlace.lng + ".");
+    console.log("The name of your chosen place is "+ midpointName);
+    // ... then send a response of some kind to client
+    res.json(response);
 });
 
-app.get("/result", (req, res) => {
-    console.log("Sending over the midpoint to the result page");
+app.get("/area", (req, res) => {
+    console.log("Sending over the calculated midpoint and to the area page");
     console.log(midpoint);
     const data = {
         status: 'success!',
-        message: 'congratulations receiving the midpoint!',
+        message: 'congratulations receiving the midpoint! area page',
         your_data: midpoint
     }
     console.log(data);
     res.json(midpoint);
+});
+
+app.get("/result", (req, res) => {
+    console.log("Sending over the chosen midpoint place to the result page");
+    console.log(midpointPlace);
+    const data = {
+        status: 'success!',
+        message: 'congratulations receiving the midpoint place!',
+        your_data: midpointPlace
+    }
+    console.log(data);
+    res.json(midpointPlace);
+});
+
+app.get("/name", (req, res) => {
+    console.log("Sending over the chosen midpoint name to the result page");
+    console.log(midpointName);
+    // var midpointInfo = {
+    //     midpointPlace,
+    //     midpointName
+    // }
+    const data = {
+        status: 'success!',
+        message: 'congratulations receiving the midpoint name!',
+        your_data: midpointName
+    }
+    console.log(data);
+    res.json(midpointName);
+    // res.json(midpointInfo);
 });
 
 //the login page is posting but we are not receiving 
