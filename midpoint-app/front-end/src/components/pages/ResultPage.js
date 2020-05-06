@@ -15,7 +15,7 @@ class ResultPage extends Component {
                 lng: -70.9261412,
                 
             },
-            name: 'place holder'
+            name: 'Midpoint Location'
         }
     }
 
@@ -38,7 +38,7 @@ class ResultPage extends Component {
         .then((response) => {
             console.log("This is the midpoint name");
             console.log(response);
-            this.setState({ name: response.data })
+            this.setState({ name: response.data})
         })
         .catch((error) => {
             console.log(error);
