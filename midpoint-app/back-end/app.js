@@ -15,17 +15,24 @@ const port = process.env.PORT;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3001");
-    // res.header("Access-Control-Allow-Origin", "http://localhost:3000/signup");
-    // res.header("Access-Control-Allow-Origin", "http://localhost:3000/login");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+// app.use(cookieParser());
+
+// app.use(expressSession({
+//     secret: 'my key',
+//     resave: true,
+//     saveUninitialized: true
+// }));
 // app.use(express.urlencoded({ extended: false }));
 
 
 var database;
+var userModel;
 
 function connectDB() {
     var databaseURL = 'mongodb://localhost:27017/user'
@@ -70,24 +77,48 @@ function connectDB() {
     )
 }
 
+// var authUser = function (db, id, password, callback) {
+//     var users = db.db('user').collection('user');
+//     var result = users.find({ "name": id, "password": password },
+//         function (err, docs) {
+//             if (err) {
+//                 callback(err, null);
+//                 return;
+//             }
+//             if (docs.length > 0) {
+//                 console.log('find user [' + docs + ']');
+//                 callback(null, docs);
+//             }
+//             else {
+//                 console.log('cannot find')
+//                 callback(null, null)
+//             }
+//         }
+//     );
+// };
+
 var authUser = function (db, id, password, callback) {
-    var users = db.db('user').collection('user');
-    var result = users.find({ "name": id, "password": password },
-        function (err, docs) {
-            if (err) {
-                callback(err, null);
-                return;
-            }
-            if (docs.length > 0) {
-                console.log('find user [' + docs + ']');
-                callback(null, docs);
-            }
-            else {
-                console.log('cannot find')
-                callback(null, null)
-            }
+    console.log('authuser:' + id + ',' + password);
+
+    userModel.find({
+        "id": id,
+        "password": password
+    }, function (err, results) {
+        if (err) {
+            callback(err, null);
+            return;
         }
-    );
+
+        console.dir(results);
+
+        if (results.length > 0) {
+            console.log('user found')
+            callback(null, results);
+        } else {
+            console.log('no user found')
+            callback(null, null)
+        }
+    })
 };
 
 var appServer = http.createServer(app);
@@ -97,15 +128,20 @@ appServer.listen(app.get('port'),
     }
 )
 
+
 var router = express.Router();
 
 router.route('/login').post(
     function (req, res) {
-        console("in route login")
+        console.log("in route login")
+        var paramEmail = req.body.email || req.query.email;
+        var paramPW = req.body.password || req.query.password;
+        console.log('ID : ' + paramEmail + "PW : " + paramPW);
+        console.log(database)
         if (database) {
-            authUser(database, paramID, paramPW,
+            authUser(database, paramEmail, paramPW,
                 function (err, docs) {
-                    if (databse) {
+                    if (database) {
                         if (err) {
                             console.log('error')
                             res.end();
@@ -144,6 +180,7 @@ router.route('/signup').post(
                     }
                     if (result) {
                         console.dir(result);
+                        res.writeHead(200, { "Content-Type": "text/html;characterset=utf8" });
                         res.write('<h1> name </h1>' + paramName)
                         res.end();
                     }
@@ -165,6 +202,8 @@ app.use('/', router);
 var signup = function (db, id, password, name, callback) {
     console.log("signing up" + id)
     var users = new userModel({ "id": id, "password": password, "name": name })
+
+
 
     users.save(
         function (err) {
