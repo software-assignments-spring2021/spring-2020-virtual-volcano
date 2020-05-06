@@ -42,17 +42,17 @@ describe("Check Lat/Lng", ()=>{
             });
     });
 
-describe("Login", () => {
-    it("Sends a 200 code when user information is passed", done => {
-      chai
-        .request(app)
-        .post("/login")
-        .send({email: "testEmail", password: "testPass"})
-        .end((err, res) => {
-          expect(res).to.have.status(200);
-          done();
-        });
-    });  
-});
+// describe("Login", () => {
+//     it("Sends a 200 code when user information is passed", done => {
+//       chai
+//         .request(app)
+//         .post("/login")
+//         .send({email: "testEmail@email.com", password: "testPass"})
+//         .end((err, res) => {
+//           expect(res).to.have.status(200);
+//           done();
+//         });
+//     });  
+// });
 
 });

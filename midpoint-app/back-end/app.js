@@ -338,6 +338,7 @@ app.get("/name", (req, res) => {
     res.json(midpointName);
 });
 
+//this login post is not being used 
 //the login page is posting but we are not receiving 
 app.post("/login", (req, res) => {
     const data = {
