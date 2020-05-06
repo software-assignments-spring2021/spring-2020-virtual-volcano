@@ -193,6 +193,7 @@ class Map extends React.Component {
           return {
             name: item.name,
             position: item.geometry.location,
+            placeId: item.place_id,
             id: i
           };
         });
@@ -203,7 +204,6 @@ class Map extends React.Component {
       })}
         // {this.state.places.map(place => {
         //     this.createMarker(place, map);
-        //     //add marker to global state list
         // })}
         console.log("these are all of the markers")
         console.log(this.state.markers)
@@ -227,7 +227,8 @@ class Map extends React.Component {
       console.log(JSON.stringify(marker.position));
       let markerInfo = {
             coords: marker.position,
-            name: place.name
+            name: place.name,
+            placeId: place.placeId
       };
       axios.post('http://localhost:3000/area', markerInfo)
       .then(function (response) {
@@ -290,58 +291,3 @@ class Map extends React.Component {
   }
   
   export default withScriptjs(withGoogleMap(Map));
-
-
-//     const AsyncMap = withScriptjs(
-//         withGoogleMap(
-//             props => ( 
-//                 <React.Fragment>
-//                 <GoogleMap
-//                 // ref={(el) => { this.mapNode = el }}
-//                 // ref={url}
-//                 google={this.props.google}
-//                 defaultZoom={this.props.zoom}
-//                 defaultCenter={{lat: this.props.center.lat, lng: this.props.center.lng}}
-                
-//               >
-//             </GoogleMap>
-//             </React.Fragment>
-//             )
-//         )
-//     )
-//     let map;
-//         // if (this.props.center.lat !== undefined) {
-//             map = <div><AsyncMap>
-//                 ref={url}
-//                 loadingElement={
-//                     <div style={{ height: '100%' }} />
-//                 }
-//                 containerElement={
-//                     <div style={{ height: this.props.height }} />
-//                 }
-//                 mapElement={
-//                     <div style={{ height: '100%' }} />
-//                 }
-//                 </AsyncMap> 
-//                 </div>
-//         // <div>
-//         //     <AsyncMap
-//         //             ref={url}
-//         //             loadingElement={
-//         //                 <div style={{ height: '100%' }} />
-//         //             }
-//         //             containerElement={
-//         //                 <div style={{ height: this.props.height }} />
-//         //             }
-//         //             mapElement={
-//         //                 <div style={{ height: '100%' }} />
-//         //             }
-//         //         />
-//         //     </div>
-//         // } else {
-//         //     map = <div style={{ height: this.props.height }} />
-//         // }
-//         return (map)
-//     }
-// }
-// export default Map;

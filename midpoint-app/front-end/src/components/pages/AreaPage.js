@@ -26,14 +26,14 @@ class AreaPage extends Component {
             },
             selectValue: ""
         };
-        this.handleDropdownChange = this.handleDropdownChange.bind(this);
+        // this.handleDropdownChange = this.handleDropdownChange.bind(this);
     }
 
-    handleDropdownChange(e) {
-        this.setState({ selectValue: e.target.value });
-        // console.log("the state is");
-        // console.log(this.state.selectValue);
-      }
+    // handleDropdownChange(e) {
+    //     this.setState({ selectValue: e.target.value });
+    //     // console.log("the state is");
+    //     // console.log(this.state.selectValue);
+    //   }
 
     componentDidMount() {
         axios.get("http://localhost:3000/area")
