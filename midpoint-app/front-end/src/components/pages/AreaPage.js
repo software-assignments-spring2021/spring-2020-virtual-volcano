@@ -23,9 +23,17 @@ class AreaPage extends Component {
             data: {
                 lat: 35.9039889,
                 lng: -70.9261412,
-            }
-        }
+            },
+            selectValue: ""
+        };
+        this.handleDropdownChange = this.handleDropdownChange.bind(this);
     }
+
+    handleDropdownChange(e) {
+        this.setState({ selectValue: e.target.value });
+        // console.log("the state is");
+        // console.log(this.state.selectValue);
+      }
 
     componentDidMount() {
         axios.get("http://localhost:3000/area")
@@ -49,6 +57,18 @@ class AreaPage extends Component {
             <div>
                 <Header />
                 <AreaForm />
+                {/* <div>
+            <div>
+                <select id="dropdown" onChange={this.handleDropdownChange}>
+                <option value="N/A">N/A</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                </select>
+            </div>
+            <div>Selected value is : {this.state.selectValue}</div>
+            </div> */}
                 <Map
                     zoom={14}
                     googleMapURL={url}
