@@ -52,7 +52,24 @@ function AreaForm(props) {
 
   return (
     <Form className="location-box">
-        <h3>Browse Midpoint Area on the map:</h3>
+      {/* Implement title and dropdown buttons to select radius and things to do  */}
+      {/* <Dropdown className='dropdown'
+        placeholder = "Select Radius"
+        fluid
+        selection
+        options={radiusOptions}
+        style={{ width: "25%",left: "50%", right: "auto", transform: "translate(-50%,0)"}}
+      />
+      <p></p>
+      <Dropdown className='dropdown'
+        placeholder = "Things To Do"
+        fluid
+        selection
+        options={thingsOptions}
+        style={{ width: "25%",left: "50%", right: "auto", transform: "translate(-50%,0)"}}
+      /> */}
+      <p></p>
+      <h3>Browse Midpoint Area on the map:</h3>
       <p></p>
       <Link to='/result'><Button primary>Midpoint Chosen!</Button></Link>
       {/* <Button primary>Midpoint Chosen!</Button> */}

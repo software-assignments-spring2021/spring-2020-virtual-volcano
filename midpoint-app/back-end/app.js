@@ -6,9 +6,9 @@ const bodyParser = require('body-parser');
 const axios = require("axios");
 var http = require('http');
 const mongoose = require('mongoose');
-const cors = require("cors");
+//const cors = require("cors");
 
-app.use(cors());
+// app.use(cors());
 
 const port = process.env.PORT;
 // require('./db.js')
@@ -243,9 +243,8 @@ let midpointPlace = {
     lng: 0
 };
 
-let midpointName = {
-    name: 'place holder'
-};
+let midpointName = 'Midpoint location'
+let midpointID = ''
 
 //work with longitude and lat
 app.post('/', (req, res) => {
@@ -258,6 +257,9 @@ app.post('/', (req, res) => {
     const response = algorithm(your_data);
     midpoint.lat = response.lat;
     midpoint.lng = response.lng;
+    //in case a user does not pick a place in the area page
+    midpointPlace.lat = response.lat;
+    midpointPlace.lng = response.lng;
     console.log(req.body);
     console.log(your_data);
     console.log(response);
@@ -271,23 +273,27 @@ app.post('/area', (req, res) => {
     const your_data = {
         latM: req.body.coords.lat,
         lngM: req.body.coords.lng,
-        name: req.body.name
+        name: req.body.name,
+        placeId: req.body.placeId
     }
     const response = {
         status: "success!",
         message: "sending us chosen midpoint and name, now storing",
         lat: parseFloat(your_data.latM),
         lng: parseFloat(your_data.lngM),
-        name: JSON.stringify(your_data.name)
+        name: JSON.stringify(your_data.name),
+        placeId: your_data.placeId
     };
     midpointPlace.lat = response.lat;
     midpointPlace.lng = response.lng;
     midpointName = response.name;
+    midpointID = response.placeId;
     console.log(req.body);
     console.log(your_data);
     console.log(response);
     console.log("Your midpoint place is located at lat: " + midpointPlace.lat + " and lng: " + midpointPlace.lng + ".");
     console.log("The name of your chosen place is " + midpointName);
+    console.log("The place id of the chosen place is " + midpointID);
     // ... then send a response of some kind to client
     res.json(response);
 });
@@ -307,22 +313,22 @@ app.get("/area", (req, res) => {
 app.get("/result", (req, res) => {
     console.log("Sending over the chosen midpoint place to the result page");
     console.log(midpointPlace);
+    console.log(midpointID);
     const data = {
         status: 'success!',
         message: 'congratulations receiving the midpoint place!',
-        your_data: midpointPlace
+        lat: midpointPlace.lat,
+        lng: midpointPlace.lng,
+        placeId: midpointID
     }
     console.log(data);
-    res.json(midpointPlace);
+    // res.json(midpointPlace);
+    res.json(data);
 });
 
 app.get("/name", (req, res) => {
     console.log("Sending over the chosen midpoint name to the result page");
     console.log(midpointName);
-    // var midpointInfo = {
-    //     midpointPlace,
-    //     midpointName
-    // }
     const data = {
         status: 'success!',
         message: 'congratulations receiving the midpoint name!',
@@ -330,7 +336,6 @@ app.get("/name", (req, res) => {
     }
     console.log(data);
     res.json(midpointName);
-    // res.json(midpointInfo);
 });
 
 //the login page is posting but we are not receiving 

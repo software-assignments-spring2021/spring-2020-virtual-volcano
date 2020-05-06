@@ -32,9 +32,49 @@ class Map extends React.Component {
     //     lng: -70.9261412,
     // }
         },
-        mapRef: '' 
+        mapRef: '' ,
+        selectValue: "restaurant",
+        markers: [],
+        selectRadius: 402,
+        radiusLabel: "0.25 Miles"
     };
     // this.mapMounted = this.mapMounted.bind(this);
+    this.handleDropdownChange = this.handleDropdownChange.bind(this);
+    this.handleDropdownChangeRadius = this.handleDropdownChangeRadius.bind(this);
+
+  }
+
+  handleDropdownChangeRadius(e) {
+    this.setState({ selectRadius: e.target.value });
+    //call other fetch places
+    this.mapInstance = this.mapNode.context[MAP]
+    //look at all of the markers and clear their markers and info windows
+    //remove all old markers with 
+    this.clearOverlays()
+    console.log("after clearing places")
+    console.log(this.state.places)
+    this.fetchPlaces(this.mapInstance, this.state.selectValue, e.target.value);
+  }
+
+  handleDropdownChange(e) {
+    this.setState({ selectValue: e.target.value });
+    //call other fetch places
+    this.mapInstance = this.mapNode.context[MAP]
+    //look at all of the markers and clear their markers and info windows
+    //remove all old markers with 
+    this.clearOverlays()
+    console.log("after clearing places")
+    console.log(this.state.places)
+    this.fetchPlaces(this.mapInstance, e.target.value, this.state.selectRadius);
+  }
+
+  clearOverlays() {
+    for (var i = 0; i < this.state.markers.length; i++ ) {
+      this.state.markers[i].setMap(null);
+    }
+    this.state.markers = []
+    //just in case clear the places array
+    this.state.places = []
   }
 
 //     mapMounted(element) {
@@ -76,7 +116,7 @@ class Map extends React.Component {
         // console.log(this.mapNode.context[MAP].getCenter().toString());
         let middle = this.mapInstance.getCenter();
         console.log(middle.toString());
-        this.fetchPlaces(this.mapInstance);
+        this.fetchPlaces(this.mapInstance, this.state.selectValue, this.state.selectRadius);
     })
     .catch((error) => {
         console.log(error);
@@ -133,13 +173,15 @@ class Map extends React.Component {
 
   }
 
-  fetchPlaces(map) {
+  fetchPlaces(map, thing, radius) {
     // map.setCenter(this.state.mapPosition)
     const request = {
       location: map.getCenter(),
     // location: this.state.mapPosition,
-      radius: "402", //.25 miles
-      type: ["restaurant"]
+      // radius: "402", //.25 miles
+      radius: radius,
+      // type: ["restaurant"]
+      type: [thing]
     };
     console.log("this is the fetch places center")
     console.log(map.getCenter().toString());
@@ -151,20 +193,27 @@ class Map extends React.Component {
           return {
             name: item.name,
             position: item.geometry.location,
+            placeId: item.place_id,
             id: i
           };
         });
         this.setState({ places });
         {this.state.places.map(place => {
-            this.createMarker(place, map);
-        })}
+          //add marker to global state list
+          this.state.markers.push(this.createMarker(place, map))
+      })}
+        // {this.state.places.map(place => {
+        //     this.createMarker(place, map);
+        // })}
+        console.log("these are all of the markers")
+        console.log(this.state.markers)
       }
     });
   }
 
   createMarker(place, map) {
     var infowindow = new google.maps.InfoWindow(); 
-        console.log(place);
+        // console.log(place);
         var marker = new google.maps.Marker({
         key: place.id,
         map: map,
@@ -178,7 +227,8 @@ class Map extends React.Component {
       console.log(JSON.stringify(marker.position));
       let markerInfo = {
             coords: marker.position,
-            name: place.name
+            name: place.name,
+            placeId: place.placeId
       };
       axios.post('http://localhost:3000/area', markerInfo)
       .then(function (response) {
@@ -189,20 +239,45 @@ class Map extends React.Component {
           console.log(error);
       });
     });
+      return marker 
 }
 
   render() {
     // let map = 
     console.log("This should be the map position of the map");
     console.log(this.state.mapPosition);
-    return ( <GoogleMap
+    //put dropdown here
+    
+    return ( 
+      <React.Fragment>
+      <div>
+          <select id="dropdown" onChange={this.handleDropdownChange}>
+          <option value="restaurant">restaurant</option>
+          <option value="museum">museum</option>
+          <option value="bar">bar</option>
+          <option value="clothing_store">clothing store</option>
+          <option value="movie_theater">movie theater</option>
+          </select>
+      </div>
+      <div>Thing to do: {this.state.selectValue}</div>
+
+      <div>
+          <select id="dropdown" onChange={this.handleDropdownChangeRadius}>
+          <option value="402">0.25 Miles</option>
+          <option value="804">0.5 Miles</option>
+          <option value="1609">1 Mile</option>
+          <option value="161">0.1 Miles</option>
+          </select>
+      </div>
+      <div>Radius around midpoint: {this.state.selectRadius} meters</div>
+      <GoogleMap
         // ref={this.mapMounted}
         center={{
             lat: this.state.mapPosition.lat,
             lng: this.state.mapPosition.lng
           }}
-      ref={(el) => { this.mapNode = el }}
-      google={this.props.google}
+        ref={(el) => { this.mapNode = el }}
+        google={this.props.google}
         defaultZoom={this.props.zoom}
         // defaultCenter={{
         //   lat: this.state.mapPosition.lat,
@@ -210,64 +285,9 @@ class Map extends React.Component {
         // }}
       >
        </GoogleMap>
-
+       </React.Fragment>
       );
     }
   }
   
   export default withScriptjs(withGoogleMap(Map));
-
-
-//     const AsyncMap = withScriptjs(
-//         withGoogleMap(
-//             props => ( 
-//                 <React.Fragment>
-//                 <GoogleMap
-//                 // ref={(el) => { this.mapNode = el }}
-//                 // ref={url}
-//                 google={this.props.google}
-//                 defaultZoom={this.props.zoom}
-//                 defaultCenter={{lat: this.props.center.lat, lng: this.props.center.lng}}
-                
-//               >
-//             </GoogleMap>
-//             </React.Fragment>
-//             )
-//         )
-//     )
-//     let map;
-//         // if (this.props.center.lat !== undefined) {
-//             map = <div><AsyncMap>
-//                 ref={url}
-//                 loadingElement={
-//                     <div style={{ height: '100%' }} />
-//                 }
-//                 containerElement={
-//                     <div style={{ height: this.props.height }} />
-//                 }
-//                 mapElement={
-//                     <div style={{ height: '100%' }} />
-//                 }
-//                 </AsyncMap> 
-//                 </div>
-//         // <div>
-//         //     <AsyncMap
-//         //             ref={url}
-//         //             loadingElement={
-//         //                 <div style={{ height: '100%' }} />
-//         //             }
-//         //             containerElement={
-//         //                 <div style={{ height: this.props.height }} />
-//         //             }
-//         //             mapElement={
-//         //                 <div style={{ height: '100%' }} />
-//         //             }
-//         //         />
-//         //     </div>
-//         // } else {
-//         //     map = <div style={{ height: this.props.height }} />
-//         // }
-//         return (map)
-//     }
-// }
-// export default Map;
