@@ -6,6 +6,6 @@ node_js:
 
 script:
   - cd midpoint-app
-  - cd ../back-end
+  - cd back-end
   - npm install
   - npm test
