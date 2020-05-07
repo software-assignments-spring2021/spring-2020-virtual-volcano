@@ -7,6 +7,9 @@ const axios = require("axios");
 var http = require('http');
 const mongoose = require('mongoose');
 //const cors = require("cors");
+const MongoClient = require('mongodb').MongoClient;
+
+
 
 // app.use(cors());
 
@@ -35,7 +38,18 @@ var database;
 var userModel;
 
 function connectDB() {
-    var databaseURL = 'mongodb://localhost:27017/user'
+
+    const databaseURL = "URLHERE"
+    // MongoClient.connect(uri, function (err, client) {
+    //     if (err) {
+    //         console.log('Error occured while connecting')
+    //     }
+    //     console.log('Connected via ATLAS');
+    //     const collection = client.db('user')
+    // })
+
+
+    // var databaseURL = 'mongodb://localhost:27017/user'
 
     mongoose.Promise = global.Promise;
     mongoose.connect(databaseURL)
