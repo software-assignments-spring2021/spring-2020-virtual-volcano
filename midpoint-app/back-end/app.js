@@ -6,6 +6,10 @@ const bodyParser = require('body-parser');
 const axios = require("axios");
 var http = require('http');
 const mongoose = require('mongoose');
+
+require('dotenv').config({ path: './.env' });
+var dburi = process.env.uri
+
 //const cors = require("cors");
 const MongoClient = require('mongodb').MongoClient;
 
@@ -39,7 +43,7 @@ var userModel;
 
 function connectDB() {
 
-    const databaseURL = "URLHERE"
+    const databaseURL = dburi
     // MongoClient.connect(uri, function (err, client) {
     //     if (err) {
     //         console.log('Error occured while connecting')
