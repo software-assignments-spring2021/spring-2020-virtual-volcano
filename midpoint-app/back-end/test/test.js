@@ -39,8 +39,12 @@ describe("Check Lat/Lng", ()=>{
             .end((err, res)=>{
                 expect(err);
                 done();
+                //end the tests
+                process.exit(0);
             });
     });
+
+    
 
 // describe("Login", () => {
 //     it("Sends a 200 code when user information is passed", done => {
