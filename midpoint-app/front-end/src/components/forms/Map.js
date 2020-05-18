@@ -256,11 +256,11 @@ class Map extends React.Component {
         <div style = {{paddingLeft:'10px', paddingTop:'10px', paddingBottom: '5px', fontSize: '15px', fontWeight: "bold", color: "teal"}}>Thing to do: </div>
         <div style = {{paddingLeft:'10px'}}>
             <select id="dropdown" onChange={this.handleDropdownChange}>
-            <option value="Restaurant" selected="selected">Restaurant</option>
-            <option value="Museum">Museum</option>
-            <option value="Bar">Bar</option>
-            <option value="Clothing Store">Clothing Store</option>
-            <option value="Movie Theater">Movie Theater</option>
+            <option value="restaurant" selected="selected">Restaurant</option>
+            <option value="museum">Museum</option>
+            <option value="bar">Bar</option>
+            <option value="clothing_store">Clothing Store</option>
+            <option value="movie_theater">Movie Theater</option>
             </select>
         </div>
         
