@@ -256,7 +256,7 @@ class Map extends React.Component {
         <div style = {{paddingLeft:'10px', paddingTop:'10px', paddingBottom: '5px', fontSize: '15px', fontWeight: "bold", color: "teal"}}>Thing to do: </div>
         <div style = {{paddingLeft:'10px'}}>
             <select id="dropdown" onChange={this.handleDropdownChange}>
-            <option value="Restaurant">Restaurant</option>
+            <option value="Restaurant" selected="selected">Restaurant</option>
             <option value="Museum">Museum</option>
             <option value="Bar">Bar</option>
             <option value="Clothing Store">Clothing Store</option>
@@ -268,7 +268,7 @@ class Map extends React.Component {
         <div style = {{paddingLeft:'10px'}}>
             <select id="dropdown" onChange={this.handleDropdownChangeRadius}>
             <option value="161">0.1 Miles</option>
-            <option value="402">0.25 Miles</option>
+            <option value="402" selected="selected">0.25 Miles</option>
             <option value="804">0.5 Miles</option>
             <option value="1609">1 Mile</option>
             </select>
