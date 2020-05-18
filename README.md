@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.com/nyu-software-engineering/spring-2020-virtual-volcano.svg?branch=master)](https://travis-ci.com/nyu-software-engineering/spring-2020-virtual-volcano)
 
+![logo](https://github.com/nyu-software-engineering/spring-2020-virtual-volcano/blob/master/ux-design/midpoint_wireframe/logo.png)
+
   ### Goal
 Provide users an easy way to find the midpoint location for meeting up with friends, or find equidistant location for users to set location on Uber/Lyft to walk the same distance back home. 
 

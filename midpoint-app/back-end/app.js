@@ -7,13 +7,62 @@ const axios = require("axios");
 var http = require('http');
 const mongoose = require('mongoose');
 
+//------------------------------------------------cookie stuff
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
+const cors = require("cors")
+const JWT = require('jsonwebtoken');
+const JWT_SECRET = 'midpoint';
+const jwtDecode = require('jwt-decode');
+const corsOptions = {
+    origin: "http://localhost:3000",    // reqexp will match all prefixes
+    methods: "GET,HEAD,POST,PATCH,DELETE,OPTIONS",
+    credentials: true,                // required to pass
+    allowedHeaders: "Content-Type, Authorization, X-Requested-With",
+}
+// intercept pre-flight check for all routes
+//app.options('*', cors(corsOptions))
+// app.use(cors(corsOptions));
+
+signToken = (user_id) => {
+    return JWT.sign({
+        iss: 'Midpoint',
+        sub: user_id,
+        iat: new Date().getTime(), //current time
+        exp: new Date().setDate(new Date().getDate + 1) // current time + 1 day
+    }, JWT_SECRET)
+}
+//-------------------------------------------------------------------
+
 require('dotenv').config({ path: './.env' });
 var dburi = process.env.uri
 
 // const cors = require("cors");
 const MongoClient = require('mongodb').MongoClient;
 
+const cookieExtractor = req => {
+    let token = null;
+    if (req && req.cookies) {
+        //console.log('req.cookies', req.cookies);
+        token = req.cookies['access_token'];
+        //console.log("token received: " + token);
+    }
+    return token;
+}
 
+var opts = {}
+opts.jwtFromRequest = cookieExtractor;
+opts.secretOrKey = 'midpoint';
+
+const cookieToID = req => {
+    let token = cookieExtractor(req);
+    console.log(token);
+
+    let decodedToken = jwtDecode(token);
+    let userID = decodedToken.sub;
+
+    return userID;
+}
 
 // app.use(cors());
 
@@ -84,10 +133,14 @@ function connectDB() {
                     type: String,
                     required: true
                 },
-                saved_address: {
+                saved_location: {
                     type: [String],
-                    required: false
-                }
+                    required: true
+                },
+                // saved_address: {
+                //     type: [String],
+                //     required: false
+                // }
             });
             console.log("userSchema defined");
 
@@ -143,15 +196,31 @@ var authUser = function (db, id, password, callback) {
 
         if (results.length > 0) {
             console.log('user found')
+            console.log("this is the results");
+            console.log(results);
+            console.log("this is the result id");
+            console.log(results[0]._id);
             callback(null, results);
             // console.log(callback)
+
+            return results[0]._id;
+            // const id = results[0]._id;
+            // console.log(id);
+            // const token = signToken(id);
+
+            // res.cookie('access_token', token, {
+            //   httpOnly: true
+            // });
+            // res.status(200).json({ success: true });
 
         } else {
             console.log('no user found')
             callback(null, null)
             // console.log(callback)
+            return;
         }
     })
+
 };
 
 var appServer = http.createServer(app);
@@ -174,8 +243,9 @@ router.route('/login').post(
         var paramPW = req.body.password || req.query.password;
         console.log('ID : ' + paramEmail + " PW : " + paramPW);
         console.log(database)
+        var tokenID;
         if (database) {
-            authUser(database, paramEmail, paramPW,
+            tokenID = authUser(database, paramEmail, paramPW,
                 function (err, docs) {
                     if (database) {
                         if (err) {
@@ -184,29 +254,49 @@ router.route('/login').post(
                             return;
                         }
                         if (docs) {
-                            console.dir(docs);
+                            // console.dir(docs);
+                            console.log("these are the docs")
+                            console.log(docs[0]._id);
+                            var token1 = docs[0]._id;
+                            console.log("this is the token")
+                            console.log(tokenID);
                             // res.write('<h1>Logged</h1>')
                             const data = { paramEmail, paramPW, auth: 'yes' }
                             cur_data = data;
                             // res.write(paramEmail)
                             // res.write(paramPW)
                             authorized = 'yes'
-                            res.json(data)
-                            res.end();
+                            // res.json(data)
+                            ///generate a cookie! 
+                            console.log("tokenID is ");
+                            console.log(token1);
+                            const token = signToken(token1);
+                            console.log("this is the sign token")
+                            console.log(token);
+                            return res.cookie('access_token', token, {
+                                httpOnly: true,
+                            })
+                                .status(200).json({ success: true });
+                            // res.end();
+
                         }
                         else {
                             // res.write('<h1>no data</h1>')
                             const data = { paramEmail, paramPW, auth: 'no' }
                             authorized = 'no'
-                            res.json(data)
+                            // res.json(data)
                             res.end();
                         }
                     }
                 }
             )
+
         }
-        console.log("Current data!!2")
-        console.log(cur_data);
+        else {
+            console.log('DB not connected')
+            res.end();
+        }
+
     }
 );
 
@@ -217,9 +307,11 @@ router.route('/signup').post(
         var paramPW = req.body.password || req.query.password;
         var paramName = req.body.name || req.query.name;
         console.log('ID : ' + paramEmail + " PW : " + paramPW);
+        var tokenID;
+
 
         if (database) {
-            signup(database, paramEmail, paramPW, paramName,
+            tokenID = signup(database, paramEmail, paramPW, paramName,
                 function (err, result) {
                     if (err) {
                         console.log('error')
@@ -228,8 +320,8 @@ router.route('/signup').post(
                     }
                     if (result) {
                         console.dir(result);
-                        res.writeHead(200, { "Content-Type": "text/html;characterset=utf8" });
-                        res.write('<h1> name </h1>' + paramName)
+                        // res.writeHead(200, { "Content-Type": "text/html;characterset=utf8" });
+                        // res.write('<h1> name </h1>' + paramName)
                         res.end();
                     }
                     else {
@@ -238,6 +330,12 @@ router.route('/signup').post(
                     }
                 }
             )
+            const token = signToken(tokenID)
+            // Send a cookie containing JWT
+            return res.cookie('access_token', token, {
+                httpOnly: true,
+            })
+                .status(200).json({ success: true });
         }
         else {
             console.log('DB not connected')
@@ -248,49 +346,77 @@ router.route('/signup').post(
 
 router.route('/result').post(
     function (req, res) {
-        console.log("in the result page!!");
-        console.log(cur_data);
-        console.log(req.body);
-        if (cur_data != []) {
-            console.log("revising login info")
-            var paramEmail = cur_data.paramEmail;
-            var paramPW = cur_data.paramPW;
-            var paramAddress = req.body.address;
-        }
+        const address = req.body.address;
+        console.log(address);
+        const userID = cookieToID(req);
+        userModel.findByIdAndUpdate(userID, { saved_location: address })
+            .then(doc => {
+                // if (doc.address) {
+                // console.log("these are the adresses")
+                console.log(doc.address);
 
-        console.log('ID : ' + paramEmail + " PW : " + paramPW);
-
-        if (database) {
-            if (cur_data != []) {
-                save_result(database, paramEmail, paramPW, paramAddress,
-                    function (err, result) {
-                        if (err) {
-                            console.log('error')
-                            res.end();
-                            return;
-                        }
-                        if (result) {
-                            console.dir(result);
-                            res.writeHead(200, { "Content-Type": "text/html;characterset=utf8" });
-                            res.end();
-                        }
-                        else {
-                            console.log('error2')
-                            res.end();
-                        }
-                    }
-                )
-            }
-            else {
-                console.log("Not logged in")
-            }
-        }
-        else {
-            console.log('DB not connected')
-            res.end();
-        }
+                // name = doc.name;
+                // }
+                // else {
+                //
+                // console.log("cannot find user")
+                // name = 'default'
+                // }
+                //   name.push(userID);
+            })
+            .catch(err => {
+                console.log("cannot post address")
+                console.log(err);
+                //   name = 'default'
+            });
     }
 )
+// 
+
+//         console.log("in the result page!!");
+//         console.log(cur_data);
+//         console.log(req.body);
+//         if (cur_data != []) {
+//             console.log("revising login info")
+//             var paramEmail = cur_data.paramEmail;
+//             var paramPW = cur_data.paramPW;
+//             var paramAddress = req.body.address;
+//         }
+
+//         console.log('ID : ' + paramEmail + " PW : " + paramPW);
+
+//         if (database) {
+//             //the if statement should be checking if there is a cookie
+//             if (cur_data != []) {
+//                 save_result(database, paramEmail, paramPW, paramAddress,
+//                     function (err, result) {
+//                         if (err) {
+//                             console.log('error')
+//                             res.end();
+//                             return;
+//                         }
+//                         if (result) {
+//                             console.dir(result);
+//                             res.writeHead(200, { "Content-Type": "text/html;characterset=utf8" });
+//                             res.end();
+//                         }
+//                         else {
+//                             console.log('error2')
+//                             res.end();
+//                         }
+//                     }
+//                 )
+//             }
+//             else {
+//                 console.log("Not logged in")
+//             }
+//         }
+//         else {
+//             console.log('DB not connected')
+//             res.end();
+//         }
+//     }
+// )
 
 app.use('/', router);
 
@@ -311,6 +437,45 @@ var signup = function (db, id, password, name, callback) {
             callback(null, users);
         }
     )
+    //return
+    console.log("this is user id");
+    console.log(users._id);
+    return users._id
+
+}
+
+var save_result = function (db, id, password, address, callback) {
+    console.log("Adding address to account")
+    var users = userModel.find({
+        "id": id,
+        "password": password
+    }, function (err, results) {
+        if (err) {
+            callback(err, null);
+            return;
+        }
+
+        console.dir(results);
+
+        if (results.length > 0) {
+            console.log('user found')
+            callback(null, results);
+            // console.log(callback)
+
+        } else {
+            console.log('no user found')
+            callback(null, null)
+            // console.log(callback)
+        }
+    });
+    console.log(users)
+
+    users.update(
+        { $push: { saved_address: address } }
+    )
+    console.log("Checking if update")
+    console.log(users)
+
 }
 var save_result = function (db, id, password, address, callback) {
     console.log("Adding address to account")
@@ -463,6 +628,80 @@ app.get("/name", (req, res) => {
     }
     console.log(data);
     res.json(midpointName);
+});
+
+//acount info
+app.get("/account", async (req, res) => {
+    const userID = cookieToID(req);
+    let name;
+    console.log("in th account request!")
+    await userModel.findById(userID)
+        .then(doc => {
+            if (doc.name) {
+                console.log("this is the user name")
+                console.log(doc.name);
+
+                name = doc.name;
+            }
+            else {
+                //
+                console.log("cannot find user name")
+                name = 'default'
+            }
+            //   name.push(userID);
+        })
+        .catch(err => {
+            console.log("cannot read name")
+            console.log(err);
+            //   name = 'default'
+        });
+
+    // console.log("Sending the user name to the account page");
+    // console.log(name);
+    // const data = {
+    //     status: 'success!',
+    //     message: 'congratulations receiving the user name!',
+    //     your_data: name
+    // }
+    // console.log(data);
+    res.json(name);
+});
+
+//acount info
+app.get("/location", async (req, res) => {
+    const userID = cookieToID(req);
+    let locations = [];
+    console.log("in th account request!")
+    await userModel.findById(userID)
+        .then(doc => {
+            if (doc.saved_location) {
+                console.log("this is the locations")
+                console.log(doc.saved_location);
+
+                locations = doc.saved_location;
+            }
+            else {
+                //
+                console.log("cannot find locations")
+                // name = 'default'
+            }
+            //   name.push(userID);
+        })
+        .catch(err => {
+            console.log("cannot read name")
+            console.log(err);
+            //   name = 'default'
+        });
+
+    // console.log("Sending the user name to the account page");
+    // console.log(name);
+    // const data = {
+    //     status: 'success!',
+    //     message: 'congratulations receiving the user name!',
+    //     your_data: name
+    // }
+    // console.log(data);
+    res.json(locations);
 });
 
 app.get("/login", (req, res) => {

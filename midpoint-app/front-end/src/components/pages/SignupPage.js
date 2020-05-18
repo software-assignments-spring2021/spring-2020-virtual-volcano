@@ -11,8 +11,16 @@ class SignupPage extends React.Component {
     submit = (data) => {
         axios.post('/signup', data)
             .then(function (response) {
-                console.log("Success posting");
-                console.log(response);
+                if (response.status === 200){
+                    console.log("Success posting");
+                    console.log(response);
+                    alert("successfully signed up! please log in")
+                    // this.props.history.push('/login');
+                }
+                else{
+                    const error = new Error(response.error);
+                    throw error;
+                }
 
             }).catch(function (error) {
                 console.log(data)
@@ -22,7 +30,7 @@ class SignupPage extends React.Component {
 
         //just to make sure we actually get data 
         console.log(data);
-        this.props.history.push('/login');
+        // this.props.history.push('/login');
     };
 
     render() {
