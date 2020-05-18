@@ -22,7 +22,8 @@ class LoginPage extends React.Component {
     }
 
     submit = (data) => {
-        axios.post('http://localhost:3000/login', data)
+        // axios.post('http://localhost:3000/login', data)
+        axios.post('/login', data)
             .then(function (response) {
                 console.log("Success posting");
                 console.log("This is the data ")
@@ -54,7 +55,8 @@ class LoginPage extends React.Component {
     //test get auth
     checkAuth = () => {
         // console.log(this.state.authorized);
-        axios.get("http://localhost:3000/login")
+        // axios.get("http://localhost:3000/login")
+        axios.get("/login")
         .then((response) => {
             console.log("This is the authorization");
             console.log(response);
