@@ -98,7 +98,8 @@ class Map extends React.Component {
 
   componentDidMount () {
     //   this.asyncGetData()
-    axios.get("http://localhost:3000/area")
+    // axios.get("http://localhost:3000/area")
+    axios.get("/area")
     .then((response) => {
         console.log("These are the coordinates from axios");
         console.log(response);
@@ -230,7 +231,8 @@ class Map extends React.Component {
             name: place.name,
             placeId: place.placeId
       };
-      axios.post('http://localhost:3000/area', markerInfo)
+      // axios.post('http://localhost:3000/area', markerInfo)
+      axios.post('/area', markerInfo)
       .then(function (response) {
           console.log("Success posting the all coordinates");
           console.log(response);

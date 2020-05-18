@@ -7,22 +7,70 @@ import axios from "axios";
 
 
 class LoginPage extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            authorized: ''
+        }
+    }
+    // authorized = 'no'
+
+    //for testing 
+    componentDidMount() {
+        this.setState({authorized: 'no'})
+    }
 
     submit = (data) => {
         axios.post('http://localhost:3000/login', data)
             .then(function (response) {
                 console.log("Success posting");
+                console.log("This is the data ")
+                console.log(response.data)
                 console.log(response);
-
+                console.log(response.data.auth);
+                // this.setState({authorized: response.data.auth})
+                // this.authorized = response.data.auth;
             }).catch(function (error) {
                 console.log("Error posting");
                 console.log(error);
             });
 
         //just to make sure we actually get data 
+        console.log("this is all the data")
         console.log(data);
-        this.props.history.push('/account');
+        // if(this.authorized == 'no'){
+        //     alert('incorrect email or password');
+        //     // this.props.history.push('/signup')
+        // } else{
+        //     this.props.history.push('/account');
+        // }
+        // this.props.history.push('/account');
+        //call function to check authorization
+        console.log("calling the checkauth function")
+        this.checkAuth();
     };
+
+    //test get auth
+    checkAuth = () => {
+        // console.log(this.state.authorized);
+        axios.get("http://localhost:3000/login")
+        .then((response) => {
+            console.log("This is the authorization");
+            console.log(response);
+            this.setState({ authorized: response.data })
+            console.log(this.state.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+        if(this.state.authorized == 'no'){
+            alert('incorrect email or password');
+            // this.props.history.push('/signup')
+        } else{
+            this.props.history.push('/account');
+        }
+    }
 
     handleAlternate = () => {
         this.props.history.push('/signup')

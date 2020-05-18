@@ -10,12 +10,16 @@ const mongoose = require('mongoose');
 require('dotenv').config({ path: './.env' });
 var dburi = process.env.uri
 
-//const cors = require("cors");
+// const cors = require("cors");
 const MongoClient = require('mongodb').MongoClient;
 
 
 
 // app.use(cors());
+
+// const corsOptions = {
+//     origin: "http://local"
+// }
 
 const port = process.env.PORT;
 // require('./db.js')
@@ -25,6 +29,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3001");
+    // res.header("Access-Control-Allow-/Origin", "*");
+
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
@@ -116,7 +122,7 @@ function connectDB() {
 // };
 
 var authUser = function (db, id, password, callback) {
-    console.log('authuser:' + id + ',' + password);
+    console.log('authuser: ' + id + ', ' + password);
 
     userModel.find({
         "id": id,
@@ -132,9 +138,12 @@ var authUser = function (db, id, password, callback) {
         if (results.length > 0) {
             console.log('user found')
             callback(null, results);
+            // console.log(callback)
+
         } else {
             console.log('no user found')
             callback(null, null)
+            // console.log(callback)
         }
     })
 };
@@ -149,12 +158,15 @@ appServer.listen(app.get('port'),
 
 var router = express.Router();
 
+//test variable
+let authorized = ''
+
 router.route('/login').post(
     function (req, res) {
         console.log("in route login")
         var paramEmail = req.body.email || req.query.email;
         var paramPW = req.body.password || req.query.password;
-        console.log('ID : ' + paramEmail + "PW : " + paramPW);
+        console.log('ID : ' + paramEmail + " PW : " + paramPW);
         console.log(database)
         if (database) {
             authUser(database, paramEmail, paramPW,
@@ -167,11 +179,20 @@ router.route('/login').post(
                         }
                         if (docs) {
                             console.dir(docs);
-                            res.write('<h1>Logged</h1>')
+                            // res.write('<h1>Logged</h1>')
+                            const data = {paramEmail, paramPW, auth: 'yes'}
+                            // res.write(paramEmail)
+                            // res.write(paramPW)
+                            authorized = 'yes'
+                            res.json(data)
                             res.end();
                         }
                         else {
-                            res.write('<h1>no data</h1>')
+                            // res.write('<h1>no data</h1>')
+                            const data = {paramEmail, paramPW, auth: 'no'}
+                            authorized = 'no'
+                            res.json(data)
+                            res.end();
                         }
                     }
                 }
@@ -186,7 +207,7 @@ router.route('/signup').post(
         var paramEmail = req.body.email || req.query.email;
         var paramPW = req.body.password || req.query.password;
         var paramName = req.body.name || req.query.name;
-        console.log('ID : ' + paramEmail + "PW : " + paramPW);
+        console.log('ID : ' + paramEmail + " PW : " + paramPW);
 
         if (database) {
             signup(database, paramEmail, paramPW, paramName,
@@ -221,8 +242,6 @@ var signup = function (db, id, password, name, callback) {
     console.log("signing up" + id)
     var users = new userModel({ "id": id, "password": password, "name": name })
 
-
-
     users.save(
         function (err) {
             if (err) {
@@ -230,6 +249,7 @@ var signup = function (db, id, password, name, callback) {
                 return;
             }
             console.log('user added');
+            console.log('these are all of the users')
             console.log(users)
             console.log("this is before callback")
             callback(null, users);
@@ -355,6 +375,18 @@ app.get("/name", (req, res) => {
     console.log(data);
     res.json(midpointName);
 });
+
+app.get("/login", (req, res) => {
+    console.log("Sending the authorization of the user");
+    // console.log(midpointName);
+    const data = {
+        status: 'success!',
+        message: 'congratulations receiving the authorization!',
+        your_data: authorized
+    }
+    console.log(data);
+    res.json(authorized)
+})
 
 //this login post is not being used 
 //the login page is posting but we are not receiving 

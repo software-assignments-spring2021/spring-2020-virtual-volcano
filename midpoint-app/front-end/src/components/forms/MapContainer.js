@@ -45,15 +45,15 @@ class MapContainer extends React.Component {
             lng: this.state.markerPosition.lng
         }
 
-        axios.post('http://localhost:3000', { user1latlng })
-            .then(res => {
-                console.log(res);
-                console.log(res.data);
-            })
-            .catch(function (error) {
-                console.log("Error posting");
-                console.log(error);
-            });
+        // axios.post('http://localhost:3000', { user1latlng })
+        //     .then(res => {
+        //         console.log(res);
+        //         console.log(res.data);
+        //     })
+        //     .catch(function (error) {
+        //         console.log("Error posting");
+        //         console.log(error);
+        //     });
     }
 
     componentDidMount() {
