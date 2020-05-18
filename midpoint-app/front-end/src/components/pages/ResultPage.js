@@ -21,7 +21,8 @@ class ResultPage extends Component {
 
     //   get the final midpoint location
     componentDidMount() {
-        axios.get("http://localhost:3000/result")
+        // axios.get("http://localhost:3000/result")
+        axios.get("/result")
             .then((response) => {
                 console.log("These are the coordinates");
                 console.log(response);
@@ -34,7 +35,8 @@ class ResultPage extends Component {
             .catch((error) => {
                 console.log(error);
             });
-        axios.get("http://localhost:3000/name")
+        // axios.get("http://localhost:3000/name")
+        axios.get("/name")
         .then((response) => {
             console.log("This is the midpoint name");
             console.log(response);

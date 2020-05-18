@@ -13,7 +13,8 @@ class HomePage extends Component {
     submit = (data) => {
         console.log(data);
         console.log("axios post")
-        axios.post('http://localhost:3000/', data)
+        // axios.post('http://localhost:3000/', data)
+        axios.post('/', data)
             .then(function (response) {
                 console.log("Success posting the all coordinates");
                 console.log(response);

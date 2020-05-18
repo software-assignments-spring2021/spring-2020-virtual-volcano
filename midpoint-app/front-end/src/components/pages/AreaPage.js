@@ -36,7 +36,8 @@ class AreaPage extends Component {
     //   }
 
     componentDidMount() {
-        axios.get("http://localhost:3000/area")
+        // axios.get("http://localhost:3000/area")
+        axios.get("/area")
             .then((response) => {
                 console.log("These are the coordinates");
                 console.log(response);
