@@ -252,26 +252,29 @@ class Map extends React.Component {
     
     return ( 
       <React.Fragment>
-      <div>
-          <select id="dropdown" onChange={this.handleDropdownChange}>
-          <option value="restaurant">restaurant</option>
-          <option value="museum">museum</option>
-          <option value="bar">bar</option>
-          <option value="clothing_store">clothing store</option>
-          <option value="movie_theater">movie theater</option>
-          </select>
+      <div style = {{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
+        <div style = {{paddingLeft:'10px', paddingTop:'10px', paddingBottom: '5px', fontSize: '15px', fontWeight: "bold", color: "teal"}}>Thing to do: </div>
+        <div style = {{paddingLeft:'10px'}}>
+            <select id="dropdown" onChange={this.handleDropdownChange}>
+            <option value="Restaurant">Restaurant</option>
+            <option value="Museum">Museum</option>
+            <option value="Bar">Bar</option>
+            <option value="Clothing Store">Clothing Store</option>
+            <option value="Movie Theater">Movie Theater</option>
+            </select>
+        </div>
+        
+        <div style = {{paddingLeft:'10px', paddingTop:'10px', paddingBottom: '5px', fontSize: '15px' , fontWeight: "bold" , color: "teal"}}>Radius Around Midpoint: </div>
+        <div style = {{paddingLeft:'10px'}}>
+            <select id="dropdown" onChange={this.handleDropdownChangeRadius}>
+            <option value="161">0.1 Miles</option>
+            <option value="402">0.25 Miles</option>
+            <option value="804">0.5 Miles</option>
+            <option value="1609">1 Mile</option>
+            </select>
+        </div>
       </div>
-      <div>Thing to do: {this.state.selectValue}</div>
-
-      <div>
-          <select id="dropdown" onChange={this.handleDropdownChangeRadius}>
-          <option value="402">0.25 Miles</option>
-          <option value="804">0.5 Miles</option>
-          <option value="1609">1 Mile</option>
-          <option value="161">0.1 Miles</option>
-          </select>
-      </div>
-      <div>Radius around midpoint: {this.state.selectRadius} meters</div>
+      {/* <div>Radius around midpoint: {this.state.selectRadius} meters</div> */}
       <GoogleMap
         // ref={this.mapMounted}
         center={{
