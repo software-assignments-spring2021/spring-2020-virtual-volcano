@@ -85,7 +85,7 @@ function connectDB() {
                     required: true
                 },
                 saved_address: {
-                    type: Array,
+                    type: [String],
                     required: false
                 }
             });
@@ -252,32 +252,38 @@ router.route('/result').post(
         console.log(cur_data);
         console.log(req.body);
         if (cur_data != []) {
-            var paramEmail = cur_data.email;
-            var paramPW = cur_data.password;
+            console.log("revising login info")
+            var paramEmail = cur_data.paramEmail;
+            var paramPW = cur_data.paramPW;
+            var paramAddress = req.body.address;
         }
 
         console.log('ID : ' + paramEmail + " PW : " + paramPW);
 
         if (database) {
-            signup(database, paramEmail, paramPW, paramName,
-                function (err, result) {
-                    if (err) {
-                        console.log('error')
-                        res.end();
-                        return;
+            if (cur_data != []) {
+                save_result(database, paramEmail, paramPW, paramAddress,
+                    function (err, result) {
+                        if (err) {
+                            console.log('error')
+                            res.end();
+                            return;
+                        }
+                        if (result) {
+                            console.dir(result);
+                            res.writeHead(200, { "Content-Type": "text/html;characterset=utf8" });
+                            res.end();
+                        }
+                        else {
+                            console.log('error2')
+                            res.end();
+                        }
                     }
-                    if (result) {
-                        console.dir(result);
-                        res.writeHead(200, { "Content-Type": "text/html;characterset=utf8" });
-                        res.write('<h1> name </h1>' + paramName)
-                        res.end();
-                    }
-                    else {
-                        console.log('error2')
-                        res.end();
-                    }
-                }
-            )
+                )
+            }
+            else {
+                console.log("Not logged in")
+            }
         }
         else {
             console.log('DB not connected')
@@ -290,7 +296,7 @@ app.use('/', router);
 
 var signup = function (db, id, password, name, callback) {
     console.log("signing up" + id)
-    var users = new userModel({ "id": id, "password": password, "name": name })
+    var users = userModel({ "id": id, "password": password, "name": name })
 
     users.save(
         function (err) {
@@ -305,6 +311,39 @@ var signup = function (db, id, password, name, callback) {
             callback(null, users);
         }
     )
+}
+var save_result = function (db, id, password, address, callback) {
+    console.log("Adding address to account")
+    var users = userModel.find({
+        "id": id,
+        "password": password
+    }, function (err, results) {
+        if (err) {
+            callback(err, null);
+            return;
+        }
+
+        console.dir(results);
+
+        if (results.length > 0) {
+            console.log('user found')
+            callback(null, results);
+            // console.log(callback)
+
+        } else {
+            console.log('no user found')
+            callback(null, null)
+            // console.log(callback)
+        }
+    });
+    console.log(users)
+
+    users.update(
+        { $push: { saved_address: address } }
+    )
+    console.log("Checking if update")
+    console.log(users)
+
 }
 
 // connectDB();
