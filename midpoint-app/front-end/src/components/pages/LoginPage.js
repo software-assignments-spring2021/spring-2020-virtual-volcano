@@ -14,11 +14,10 @@ class LoginPage extends React.Component {
             authorized: ''
         }
     }
-    // authorized = 'no'
 
     //for testing 
     componentDidMount() {
-        this.setState({authorized: 'no'})
+        // this.setState({authorized: 'no'})
     }
 
     submit = (data) => {
@@ -30,8 +29,6 @@ class LoginPage extends React.Component {
                 console.log(response.data)
                 console.log(response);
                 console.log(response.data.auth);
-                // this.setState({authorized: response.data.auth})
-                // this.authorized = response.data.auth;
             }).catch(function (error) {
                 console.log("Error posting");
                 console.log(error);
@@ -40,14 +37,6 @@ class LoginPage extends React.Component {
         //just to make sure we actually get data 
         console.log("this is all the data")
         console.log(data);
-        // if(this.authorized == 'no'){
-        //     alert('incorrect email or password');
-        //     // this.props.history.push('/signup')
-        // } else{
-        //     this.props.history.push('/account');
-        // }
-        // this.props.history.push('/account');
-        //call function to check authorization
         console.log("calling the checkauth function")
         this.checkAuth();
     };
