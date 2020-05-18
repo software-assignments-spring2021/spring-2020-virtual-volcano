@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Footer from '../template/Footer';
+//import Footer from '../template/Footer';
 import Header from '../template/Header';
 import AreaForm from '../forms/AreaForm';
 import MapContainer from '../forms/MapContainer';
@@ -78,7 +78,7 @@ class AreaPage extends Component {
                     containerElement={<div style={{ height: `500px` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
                  />
-                 <Footer/>
+                 //<Footer/>
             </div>
         )
     }
