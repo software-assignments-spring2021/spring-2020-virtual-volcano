@@ -47,6 +47,7 @@ app.use(function (req, res, next) {
 
 var database;
 var userModel;
+var cur_data = [];
 
 function connectDB() {
 
@@ -82,6 +83,10 @@ function connectDB() {
                 name: {
                     type: String,
                     required: true
+                },
+                saved_address: {
+                    type: Array,
+                    required: false
                 }
             });
             console.log("userSchema defined");
@@ -182,6 +187,7 @@ router.route('/login').post(
                             console.dir(docs);
                             // res.write('<h1>Logged</h1>')
                             const data = { paramEmail, paramPW, auth: 'yes' }
+                            cur_data = data;
                             // res.write(paramEmail)
                             // res.write(paramPW)
                             authorized = 'yes'
@@ -199,6 +205,8 @@ router.route('/login').post(
                 }
             )
         }
+        console.log("Current data!!2")
+        console.log(cur_data);
     }
 );
 
@@ -237,6 +245,47 @@ router.route('/signup').post(
         }
     }
 )
+
+router.route('/result').post(
+    function (req, res) {
+        console.log("in the result page!!");
+        console.log(cur_data);
+        console.log(req.body);
+        if (cur_data != []) {
+            var paramEmail = cur_data.email;
+            var paramPW = cur_data.password;
+        }
+
+        console.log('ID : ' + paramEmail + " PW : " + paramPW);
+
+        if (database) {
+            signup(database, paramEmail, paramPW, paramName,
+                function (err, result) {
+                    if (err) {
+                        console.log('error')
+                        res.end();
+                        return;
+                    }
+                    if (result) {
+                        console.dir(result);
+                        res.writeHead(200, { "Content-Type": "text/html;characterset=utf8" });
+                        res.write('<h1> name </h1>' + paramName)
+                        res.end();
+                    }
+                    else {
+                        console.log('error2')
+                        res.end();
+                    }
+                }
+            )
+        }
+        else {
+            console.log('DB not connected')
+            res.end();
+        }
+    }
+)
+
 app.use('/', router);
 
 var signup = function (db, id, password, name, callback) {
