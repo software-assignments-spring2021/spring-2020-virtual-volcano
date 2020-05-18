@@ -104,6 +104,7 @@ class MapContainer extends React.Component {
         console.log("here update!")
         console.log(prevProps)
         console.log(this.state)
+        var that = this;
         Geocode.fromLatLng(prevProps.center.lat, prevProps.center.lng).then(
             response => {
                 const address = response.results[0].formatted_address,
@@ -133,6 +134,15 @@ class MapContainer extends React.Component {
                 console.error(error);
             }
         )
+        axios.post('/result', this.state)
+            .then(function (response) {
+                console.log("posing in result");
+                console.log(that.state)
+                console.log(response);
+            }).catch(function (error) {
+                console.log("Error posting");
+                console.log(error);
+            });
     }
 
     // componentDidUpdate(prevProps) {
@@ -277,8 +287,8 @@ class MapContainer extends React.Component {
                         <GoogleMap google={this.props.google}
                             defaultZoom={this.props.zoom}
                             defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
-                            // service = {this.places.PlacesService(map)}
-                        >   
+                        // service = {this.places.PlacesService(map)}
+                        >
 
                             <Marker google={this.props.google}
                                 name={'Dolores park'}
@@ -297,9 +307,9 @@ class MapContainer extends React.Component {
                                 </div>
                             </InfoWindow>
 
-                            <Circle google={this.props.google} 
-                            center={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
-                            radius={this.state.radius} //0.1 miles = 161 meters
+                            <Circle google={this.props.google}
+                                center={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
+                                radius={this.state.radius} //0.1 miles = 161 meters
                             >
                             </Circle>
 

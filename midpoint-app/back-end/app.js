@@ -47,6 +47,7 @@ app.use(function (req, res, next) {
 
 var database;
 var userModel;
+var cur_data = [];
 
 function connectDB() {
 
@@ -82,6 +83,10 @@ function connectDB() {
                 name: {
                     type: String,
                     required: true
+                },
+                saved_address: {
+                    type: [String],
+                    required: false
                 }
             });
             console.log("userSchema defined");
@@ -182,6 +187,7 @@ router.route('/login').post(
                             console.dir(docs);
                             // res.write('<h1>Logged</h1>')
                             const data = { paramEmail, paramPW, auth: 'yes' }
+                            cur_data = data;
                             // res.write(paramEmail)
                             // res.write(paramPW)
                             authorized = 'yes'
@@ -199,6 +205,8 @@ router.route('/login').post(
                 }
             )
         }
+        console.log("Current data!!2")
+        console.log(cur_data);
     }
 );
 
@@ -237,11 +245,58 @@ router.route('/signup').post(
         }
     }
 )
+
+router.route('/result').post(
+    function (req, res) {
+        console.log("in the result page!!");
+        console.log(cur_data);
+        console.log(req.body);
+        if (cur_data != []) {
+            console.log("revising login info")
+            var paramEmail = cur_data.paramEmail;
+            var paramPW = cur_data.paramPW;
+            var paramAddress = req.body.address;
+        }
+
+        console.log('ID : ' + paramEmail + " PW : " + paramPW);
+
+        if (database) {
+            if (cur_data != []) {
+                save_result(database, paramEmail, paramPW, paramAddress,
+                    function (err, result) {
+                        if (err) {
+                            console.log('error')
+                            res.end();
+                            return;
+                        }
+                        if (result) {
+                            console.dir(result);
+                            res.writeHead(200, { "Content-Type": "text/html;characterset=utf8" });
+                            res.end();
+                        }
+                        else {
+                            console.log('error2')
+                            res.end();
+                        }
+                    }
+                )
+            }
+            else {
+                console.log("Not logged in")
+            }
+        }
+        else {
+            console.log('DB not connected')
+            res.end();
+        }
+    }
+)
+
 app.use('/', router);
 
 var signup = function (db, id, password, name, callback) {
     console.log("signing up" + id)
-    var users = new userModel({ "id": id, "password": password, "name": name })
+    var users = userModel({ "id": id, "password": password, "name": name })
 
     users.save(
         function (err) {
@@ -256,6 +311,39 @@ var signup = function (db, id, password, name, callback) {
             callback(null, users);
         }
     )
+}
+var save_result = function (db, id, password, address, callback) {
+    console.log("Adding address to account")
+    var users = userModel.find({
+        "id": id,
+        "password": password
+    }, function (err, results) {
+        if (err) {
+            callback(err, null);
+            return;
+        }
+
+        console.dir(results);
+
+        if (results.length > 0) {
+            console.log('user found')
+            callback(null, results);
+            // console.log(callback)
+
+        } else {
+            console.log('no user found')
+            callback(null, null)
+            // console.log(callback)
+        }
+    });
+    console.log(users)
+
+    users.update(
+        { $push: { saved_address: address } }
+    )
+    console.log("Checking if update")
+    console.log(users)
+
 }
 
 // connectDB();

@@ -9,7 +9,7 @@ import axios from "axios";
 class SignupPage extends React.Component {
 
     submit = (data) => {
-        axios.post('http://localhost:3000/signup', data)
+        axios.post('/signup', data)
             .then(function (response) {
                 console.log("Success posting");
                 console.log(response);
