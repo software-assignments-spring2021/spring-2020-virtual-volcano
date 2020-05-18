@@ -78,7 +78,7 @@ class AreaPage extends Component {
                     containerElement={<div style={{ height: `500px` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
                  />
-                 //<Footer/>
+                 {/* <Footer/> */}
             </div>
         )
     }
