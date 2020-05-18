@@ -181,7 +181,7 @@ router.route('/login').post(
                         if (docs) {
                             console.dir(docs);
                             // res.write('<h1>Logged</h1>')
-                            const data = {paramEmail, paramPW, auth: 'yes'}
+                            const data = { paramEmail, paramPW, auth: 'yes' }
                             // res.write(paramEmail)
                             // res.write(paramPW)
                             authorized = 'yes'
@@ -190,7 +190,7 @@ router.route('/login').post(
                         }
                         else {
                             // res.write('<h1>no data</h1>')
-                            const data = {paramEmail, paramPW, auth: 'no'}
+                            const data = { paramEmail, paramPW, auth: 'no' }
                             authorized = 'no'
                             res.json(data)
                             res.end();
