@@ -11,7 +11,7 @@ export default props => {
         {/* Calculate Midpoint Link */}         
         <Link to='/'>Calculate Midpoint</Link>
         
-        <Link to='/login'>Login</Link>
+        <Link to='/account'>Your Account</Link>
         
         {/* <a className="menu-item" href="/">
           Calculate Midpoint

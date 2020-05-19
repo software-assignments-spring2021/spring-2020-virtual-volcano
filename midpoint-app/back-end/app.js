@@ -7,68 +7,50 @@ const axios = require("axios");
 var http = require('http');
 const mongoose = require('mongoose');
 
-//------------------------------------------------cookie stuff
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
-const cors = require("cors")
 const JWT = require('jsonwebtoken');
 const JWT_SECRET = 'midpoint';
 const jwtDecode = require('jwt-decode');
-const corsOptions = {
-    origin: "http://localhost:3000",    // reqexp will match all prefixes
-    methods: "GET,HEAD,POST,PATCH,DELETE,OPTIONS",
-    credentials: true,                // required to pass
-    allowedHeaders: "Content-Type, Authorization, X-Requested-With",
-}
-// intercept pre-flight check for all routes
-//app.options('*', cors(corsOptions))
-// app.use(cors(corsOptions));
+
+require('dotenv').config({ path: './.env' });
+var dburi = process.env.uri
+
+const MongoClient = require('mongodb').MongoClient;
 
 signToken = (user_id) => {
     return JWT.sign({
         iss: 'Midpoint',
         sub: user_id,
         iat: new Date().getTime(), //current time
-        exp: new Date().setDate(new Date().getDate + 1) // current time + 1 day
+        exp: new Date().setDate(new Date().getDate + 2) // current time + 1 day
     }, JWT_SECRET)
 }
-//-------------------------------------------------------------------
 
-require('dotenv').config({ path: './.env' });
-var dburi = process.env.uri
-
-// const cors = require("cors");
-const MongoClient = require('mongodb').MongoClient;
-
-const cookieExtractor = req => {
+const getCookie = req => {
     let token = null;
     if (req && req.cookies) {
-        //console.log('req.cookies', req.cookies);
         token = req.cookies['access_token'];
-        //console.log("token received: " + token);
     }
     return token;
 }
 
 var opts = {}
-opts.jwtFromRequest = cookieExtractor;
+opts.jwtFromRequest = getCookie;
 opts.secretOrKey = 'midpoint';
 
 const cookieToID = req => {
-    let token = cookieExtractor(req);
+    let token = getCookie(req);
     console.log(token);
+    if(token === undefined){
+        return; 
+    }
 
     let decodedToken = jwtDecode(token);
     let userID = decodedToken.sub;
 
     return userID;
 }
-
-// app.use(cors());
-
-// const corsOptions = {
-//     origin: "http://local"
-// }
 
 const port = process.env.PORT;
 // require('./db.js')
@@ -85,14 +67,6 @@ app.use(function (req, res, next) {
     next();
 });
 // app.use(cookieParser());
-
-// app.use(expressSession({
-//     secret: 'my key',
-//     resave: true,
-//     saveUninitialized: true
-// }));
-// app.use(express.urlencoded({ extended: false }));
-
 
 var database;
 var userModel;
@@ -136,7 +110,7 @@ function connectDB() {
                 saved_location: {
                     type: [String],
                     required: true
-                },
+                }
                 // saved_address: {
                 //     type: [String],
                 //     required: false
@@ -202,16 +176,7 @@ var authUser = function (db, id, password, callback) {
             console.log(results[0]._id);
             callback(null, results);
             // console.log(callback)
-
             return results[0]._id;
-            // const id = results[0]._id;
-            // console.log(id);
-            // const token = signToken(id);
-
-            // res.cookie('access_token', token, {
-            //   httpOnly: true
-            // });
-            // res.status(200).json({ success: true });
 
         } else {
             console.log('no user found')
@@ -349,20 +314,14 @@ router.route('/result').post(
         const address = req.body.address;
         console.log(address);
         const userID = cookieToID(req);
-        userModel.findByIdAndUpdate(userID, { saved_location: address })
+        userModel.findByIdAndUpdate(userID, { $push: { saved_location: address } })
             .then(doc => {
-                // if (doc.address) {
-                // console.log("these are the adresses")
+                if (doc.saved_location) {
+                    console.log("these are all the adresses")
+                    console.log(doc.saved_location);
+                    res.end();
+                } 
                 console.log(doc.address);
-
-                // name = doc.name;
-                // }
-                // else {
-                //
-                // console.log("cannot find user")
-                // name = 'default'
-                // }
-                //   name.push(userID);
             })
             .catch(err => {
                 console.log("cannot post address")
@@ -441,73 +400,6 @@ var signup = function (db, id, password, name, callback) {
     console.log("this is user id");
     console.log(users._id);
     return users._id
-
-}
-
-var save_result = function (db, id, password, address, callback) {
-    console.log("Adding address to account")
-    var users = userModel.find({
-        "id": id,
-        "password": password
-    }, function (err, results) {
-        if (err) {
-            callback(err, null);
-            return;
-        }
-
-        console.dir(results);
-
-        if (results.length > 0) {
-            console.log('user found')
-            callback(null, results);
-            // console.log(callback)
-
-        } else {
-            console.log('no user found')
-            callback(null, null)
-            // console.log(callback)
-        }
-    });
-    console.log(users)
-
-    users.update(
-        { $push: { saved_address: address } }
-    )
-    console.log("Checking if update")
-    console.log(users)
-
-}
-var save_result = function (db, id, password, address, callback) {
-    console.log("Adding address to account")
-    var users = userModel.find({
-        "id": id,
-        "password": password
-    }, function (err, results) {
-        if (err) {
-            callback(err, null);
-            return;
-        }
-
-        console.dir(results);
-
-        if (results.length > 0) {
-            console.log('user found')
-            callback(null, results);
-            // console.log(callback)
-
-        } else {
-            console.log('no user found')
-            callback(null, null)
-            // console.log(callback)
-        }
-    });
-    console.log(users)
-
-    users.update(
-        { $push: { saved_address: address } }
-    )
-    console.log("Checking if update")
-    console.log(users)
 
 }
 
@@ -655,16 +547,28 @@ app.get("/account", async (req, res) => {
             console.log(err);
             //   name = 'default'
         });
-
-    // console.log("Sending the user name to the account page");
-    // console.log(name);
-    // const data = {
-    //     status: 'success!',
-    //     message: 'congratulations receiving the user name!',
-    //     your_data: name
-    // }
-    // console.log(data);
     res.json(name);
+});
+
+//check if user is logged
+app.get("/loggedIn", (req, res) => {
+    console.log("Send the cookie");
+    const userID = cookieToID(req);
+    let answer;
+    if (userID === undefined){
+        answer = 'no'
+    }
+    else{
+        answer = 'yes'
+    }
+    console.log(answer);
+    const data = {
+        status: 'success!',
+        message: 'congratulations on checking if user is logged in!',
+        your_data: answer
+    }
+    console.log(data);
+    res.json(answer);
 });
 
 //acount info
@@ -704,6 +608,12 @@ app.get("/location", async (req, res) => {
     res.json(locations);
 });
 
+app.get("/logOut", (req, res) => {
+    res.clearCookie('access_token');
+    console.log('Just logged user out');
+    res.status(200).json({ success: true });
+  });
+
 app.get("/login", (req, res) => {
     console.log("Sending the authorization of the user");
     // console.log(midpointName);
@@ -715,23 +625,6 @@ app.get("/login", (req, res) => {
     console.log(data);
     res.json(authorized)
 })
-
-//this login post is not being used 
-//the login page is posting but we are not receiving 
-app.post("/login", (req, res) => {
-    const data = {
-        status: 'amazing success!',
-        message: 'congratulations on send us this data!',
-        your_data: {
-            email: req.body.email,
-            password: req.body.password
-        }
-    }
-    console.log(req.body);
-    // ... then send a response of some kind to client
-    res.json(data);
-    res.sendStatus(200);
-});
 
 //function algorithm(lat1, lng1, lat2, lng2){
 function algorithm(data) {

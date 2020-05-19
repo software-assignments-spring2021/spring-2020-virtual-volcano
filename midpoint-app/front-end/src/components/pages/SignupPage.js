@@ -14,7 +14,7 @@ class SignupPage extends React.Component {
                 if (response.status === 200){
                     console.log("Success posting");
                     console.log(response);
-                    alert("successfully signed up! please log in")
+                    alert("successfully signed up! You can now visit your account page to view your midpoint history")
                     // this.props.history.push('/login');
                 }
                 else{
